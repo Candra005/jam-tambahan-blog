@@ -49,7 +49,7 @@
         color: #3498db;
     }
     
-    /* Search Box */
+    /* Search Box Desktop */
     .search-container {
         display: flex;
         align-items: center;
@@ -346,9 +346,30 @@
     }
     
     @media (max-width: 768px) {
-        /* Search Box Mobile */
+        /* Search Box Mobile - VERSI 1: DALAM MENU */
         .search-container {
             display: none;
+        }
+        
+        .mobile-search-container {
+            display: block;
+            margin: 25px 0 15px;
+            width: 100%;
+        }
+        
+        .mobile-search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8f9fa;
+        }
+        
+        .mobile-search-box:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
         }
         
         /* Hamburger Menu Mobile */
@@ -427,7 +448,7 @@
             height: 200px;
         }
         
-        /* Footer Mobile - KEMBALI SEPERTI SEMULA */
+        /* Footer Mobile */
         .footer-container {
             grid-template-columns: 1fr;
             text-align: center;
@@ -460,6 +481,23 @@
         body.menu-open {
             overflow: hidden;
         }
+        
+        /* Search Results Mobile */
+        .mobile-search-results {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background: white;
+            z-index: 1000;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .mobile-search-results.active {
+            display: block;
+        }
     }
     
     @media (max-width: 480px) {
@@ -486,6 +524,10 @@
         
         .header-container {
             padding: 0 15px;
+        }
+        
+        .nav {
+            padding: 25px 20px;
         }
     }
     
@@ -592,6 +634,11 @@
                 <a href="/search?q=populer">🔥 Populer</a>
                 <a href="/p/kontak-jam-tambahan.html">📨 Kontak</a>
                 <a href="/search?q=topik">📚 Topik</a>
+                
+                <!-- Search Box Mobile - VERSI 1: DALAM MENU -->
+                <div class="mobile-search-container">
+                    <input type="text" class="mobile-search-box" placeholder="🔍 Cari artikel..." id="mobileSearchInput">
+                </div>
             </nav>
         </div>
     </header>
@@ -746,6 +793,14 @@
                 spans[1].style.opacity = '1';
                 spans[2].style.transform = 'none';
             }
+            
+            // Auto focus ke search box mobile saat menu terbuka
+            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
+                setTimeout(() => {
+                    const mobileSearchInput = document.getElementById('mobileSearchInput');
+                    if (mobileSearchInput) mobileSearchInput.focus();
+                }, 300);
+            }
         });
         
         // Close menu when clicking outside
@@ -784,10 +839,11 @@
         
         // ===== SEARCH FUNCTIONALITY =====
         const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
         const searchButton = document.getElementById('searchButton');
         const searchResults = document.getElementById('searchResults');
         
-        // Artikel data untuk search - FIXED DATA
+        // Artikel data untuk search
         const articles = [
             {
                 title: "5 Cara Mengatur Waktu yang Benar-benar Berhasil",
@@ -831,8 +887,8 @@
             }
         ];
         
-        // Search function - FIXED
-        function performSearch(query) {
+        // Search function
+        function performSearch(query, isMobile = false) {
             if (!query.trim()) {
                 searchResults.classList.remove('active');
                 return;
@@ -859,11 +915,11 @@
                 return false;
             });
             
-            displayResults(results);
+            displayResults(results, isMobile);
         }
         
         // Display search results
-        function displayResults(results) {
+        function displayResults(results, isMobile = false) {
             searchResults.innerHTML = '';
             
             if (results.length === 0) {
@@ -883,6 +939,14 @@
                         alert(`Membuka artikel: "${article.title}"\n\nFitur lengkap bisa dikembangkan untuk redirect ke halaman artikel.`);
                         searchResults.classList.remove('active');
                         searchInput.value = '';
+                        if (mobileSearchInput) mobileSearchInput.value = '';
+                        
+                        // Tutup menu mobile setelah klik hasil
+                        if (window.innerWidth <= 768) {
+                            nav.classList.remove('active');
+                            hamburger.classList.remove('active');
+                            body.classList.remove('menu-open');
+                        }
                     });
                     
                     searchResults.appendChild(resultItem);
@@ -890,12 +954,31 @@
             }
             
             searchResults.classList.add('active');
+            
+            // Untuk mobile, scroll search results ke atas
+            if (isMobile && window.innerWidth <= 768) {
+                searchResults.style.position = 'fixed';
+                searchResults.style.top = '70px';
+                searchResults.style.left = '0';
+                searchResults.style.width = '100%';
+                searchResults.style.height = 'calc(100vh - 70px)';
+                searchResults.style.zIndex = '1000';
+                searchResults.style.borderRadius = '0';
+            } else {
+                searchResults.style = ''; // Reset untuk desktop
+            }
         }
         
-        // Event listeners for search - FIXED
+        // Event listeners for search
         searchInput.addEventListener('input', function() {
             performSearch(this.value);
         });
+        
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('input', function() {
+                performSearch(this.value, true);
+            });
+        }
         
         searchButton.addEventListener('click', function() {
             performSearch(searchInput.value);
@@ -908,9 +991,19 @@
             }
         });
         
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(this.value, true);
+                }
+            });
+        }
+        
         // Close search results when clicking outside
         document.addEventListener('click', function(event) {
-            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+            if (!searchResults.contains(event.target) && 
+                event.target !== searchInput && 
+                event.target !== mobileSearchInput) {
                 searchResults.classList.remove('active');
             }
         });
@@ -963,6 +1056,9 @@
                 spans[0].style.transform = 'none';
                 spans[1].style.opacity = '1';
                 spans[2].style.transform = 'none';
+                
+                // Reset search results position
+                searchResults.style = '';
             }
         });
     </script>
