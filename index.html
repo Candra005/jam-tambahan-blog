@@ -59,6 +59,10 @@
         flex-direction: column;
         gap: 4px;
         z-index: 1001;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
     }
     
     .hamburger span {
@@ -67,7 +71,22 @@
         height: 3px;
         background: #333;
         border-radius: 2px;
-        transition: 0.3s;
+        transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        transform-origin: center;
+    }
+    
+    /* Hamburger Animation - Top to Bottom */
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
     }
     
     .nav {
@@ -368,6 +387,81 @@
         flex: 1;
     }
     
+    /* ===== MOBILE NAV MENU (Top to Bottom Animation) ===== */
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    @media (max-width: 768px) {
+        .nav {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 0 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+            gap: 0;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .nav.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            max-height: 500px;
+            padding: 20px 30px;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .nav a {
+            padding: 18px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1rem;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+        
+        .nav.active a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation untuk menu items */
+        .nav.active a:nth-child(2) { transition-delay: 0.1s; }
+        .nav.active a:nth-child(3) { transition-delay: 0.15s; }
+        .nav.active a:nth-child(4) { transition-delay: 0.2s; }
+        .nav.active a:nth-child(5) { transition-delay: 0.25s; }
+        
+        .nav a:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-search {
+            display: block;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            transition-delay: 0.05s;
+        }
+        
+        .nav.active .menu-search {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
     /* ===== FOOTER ===== */
     .footer {
         background: #2c3e50;
@@ -481,37 +575,8 @@
         }
         
         .hamburger span {
-            width: 30px;
-            height: 4px;
-        }
-        
-        .nav {
-            position: fixed;
-            top: 70px;
-            left: -100%;
-            width: 100%;
-            background: white;
-            flex-direction: column;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: 0.3s;
-            gap: 0;
-            z-index: 999;
-            align-items: stretch;
-        }
-        
-        .nav.active {
-            left: 0;
-        }
-        
-        .nav a {
-            padding: 18px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 1.2rem;
-        }
-        
-        .nav a:last-child {
-            border-bottom: none;
+            width: 25px;
+            height: 3px;
         }
         
         /* Header Search Hidden on Mobile */
@@ -620,6 +685,11 @@
         
         .search-section {
             padding: 30px 15px;
+        }
+        
+        .hamburger span {
+            width: 22px;
+            height: 2.5px;
         }
     }
     
@@ -823,41 +893,28 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // Hamburger Menu Toggle
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            // Toggle hamburger animation
+        // Hamburger Menu Toggle - SMOOTH TOP TO BOTTOM
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('.nav');
+        
+        hamburger.addEventListener('click', function() {
+            // Toggle active class
             this.classList.toggle('active');
-            // Toggle nav menu
-            document.querySelector('.nav').classList.toggle('active');
+            nav.classList.toggle('active');
             
-            // Animasi untuk garis hamburger
-            const spans = this.querySelectorAll('span');
-            if (this.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+            // Prevent body scroll when menu is open
+            if (nav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
             } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                document.body.style.overflow = '';
             }
         });
         
         // Close menu when clicking outside on mobile
         document.addEventListener('click', function(event) {
-            const nav = document.querySelector('.nav');
-            const hamburger = document.querySelector('.hamburger');
-            
             if (window.innerWidth <= 768) {
                 if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-                    nav.classList.remove('active');
-                    hamburger.classList.remove('active');
-                    
-                    // Reset hamburger lines
-                    const spans = hamburger.querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    closeMenu();
                 }
             }
         });
@@ -866,17 +923,17 @@
         document.querySelectorAll('.nav a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth <= 768) {
-                    document.querySelector('.nav').classList.remove('active');
-                    document.querySelector('.hamburger').classList.remove('active');
-                    
-                    // Reset hamburger lines
-                    const spans = document.querySelector('.hamburger').querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    closeMenu();
                 }
             });
         });
+        
+        // Function to close menu smoothly
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            document.body.style.overflow = '';
+        }
         
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -907,7 +964,6 @@
             // Tambah click handler untuk kartu artikel
             document.querySelectorAll('.article-card, .recent-article').forEach(card => {
                 card.addEventListener('click', function() {
-                    // Untuk demo, alert saja
                     const title = this.querySelector('h3').textContent;
                     alert(`Membuka artikel: "${title}"\n\nFitur ini bisa diarahkan ke halaman artikel lengkap.`);
                 });
@@ -935,8 +991,7 @@
                                 this.performSearch(mobileSearch.value);
                                 // Close menu after search on mobile
                                 if (window.innerWidth <= 768) {
-                                    document.querySelector('.nav').classList.remove('active');
-                                    document.querySelector('.hamburger').classList.remove('active');
+                                    closeMenu();
                                 }
                             }
                         });
