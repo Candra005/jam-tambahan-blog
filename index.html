@@ -49,45 +49,6 @@
         color: #3498db;
     }
     
-    /* Search Box Desktop */
-    .search-container {
-        display: flex;
-        align-items: center;
-        background: #f5f7fa;
-        border-radius: 25px;
-        padding: 8px 15px;
-        width: 300px;
-        transition: all 0.3s;
-        position: relative;
-    }
-    
-    .search-container:focus-within {
-        background: white;
-        box-shadow: 0 0 0 2px #3498db;
-    }
-    
-    .search-input {
-        border: none;
-        background: transparent;
-        padding: 5px 10px;
-        width: 100%;
-        font-size: 0.95rem;
-        outline: none;
-    }
-    
-    .search-button {
-        background: none;
-        border: none;
-        color: #666;
-        cursor: pointer;
-        padding: 5px;
-        font-size: 1.1rem;
-    }
-    
-    .search-button:hover {
-        color: #3498db;
-    }
-    
     /* Hamburger Menu */
     .hamburger {
         display: none;
@@ -306,15 +267,55 @@
         color: #ecf0f1;
     }
     
-    .footer-col p, .footer-col a {
+    .footer-col p {
         color: #bdc3c7;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .footer-col a {
+        color: #bdc3c7;
+        margin-bottom: 12px;
         display: block;
         text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 5px 0;
+        position: relative;
     }
     
     .footer-col a:hover {
         color: #3498db;
+        transform: translateX(5px);
+    }
+    
+    .footer-col a::before {
+        content: '→ ';
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .footer-col a:hover::before {
+        opacity: 1;
+    }
+    
+    .footer .btn {
+        margin-top: 10px;
+        display: inline-block;
+        background: #3498db;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    .footer .btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     
     .copyright {
@@ -339,39 +340,9 @@
         .footer-container {
             grid-template-columns: repeat(2, 1fr);
         }
-        
-        .search-container {
-            width: 250px;
-        }
     }
     
     @media (max-width: 768px) {
-        /* Search Box Mobile - VERSI 1: DALAM MENU */
-        .search-container {
-            display: none;
-        }
-        
-        .mobile-search-container {
-            display: block;
-            margin: 25px 0 15px;
-            width: 100%;
-        }
-        
-        .mobile-search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: #f8f9fa;
-        }
-        
-        .mobile-search-box:focus {
-            outline: none;
-            border-color: #3498db;
-            background: white;
-        }
-        
         /* Hamburger Menu Mobile */
         .hamburger {
             display: flex;
@@ -386,45 +357,32 @@
         
         .nav {
             position: fixed;
-            top: -100%;
-            left: 0;
+            top: 70px;
+            left: -100%;
             width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: white;
             flex-direction: column;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
             gap: 0;
             z-index: 999;
-            max-height: calc(100vh - 70px);
-            overflow-y: auto;
         }
         
         .nav.active {
-            top: 70px;
+            left: 0;
         }
         
         .nav a {
-            padding: 20px 0;
+            padding: 18px 0;
             border-bottom: 1px solid #eee;
             font-size: 1.2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .nav a:hover {
-            background: #f8f9fa;
-            color: #3498db;
-            padding-left: 20px;
         }
         
         .nav a:last-child {
             border-bottom: none;
         }
         
-        /* Hero Adjustments */
         .hero h1 {
             font-size: 2.2rem;
         }
@@ -433,7 +391,6 @@
             font-size: 1.1rem;
         }
         
-        /* Grid Adjustments */
         .featured-grid {
             grid-template-columns: 1fr;
         }
@@ -448,16 +405,10 @@
             height: 200px;
         }
         
-        /* Footer Mobile */
         .footer-container {
             grid-template-columns: 1fr;
             text-align: center;
             gap: 30px;
-        }
-        
-        .footer-col a {
-            display: block;
-            margin: 0 0 15px;
         }
         
         /* Touch Optimization */
@@ -478,25 +429,13 @@
             font-size: 1.2rem;
         }
         
-        body.menu-open {
-            overflow: hidden;
+        .footer-col a {
+            display: inline-block;
+            margin: 0 10px 15px;
         }
         
-        /* Search Results Mobile */
-        .mobile-search-results {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 70px);
-            background: white;
-            z-index: 1000;
-            overflow-y: auto;
+        .footer-col a::before {
             display: none;
-        }
-        
-        .mobile-search-results.active {
-            display: block;
         }
     }
     
@@ -520,14 +459,6 @@
         .card-meta {
             flex-direction: column;
             gap: 5px;
-        }
-        
-        .header-container {
-            padding: 0 15px;
-        }
-        
-        .nav {
-            padding: 25px 20px;
         }
     }
     
@@ -557,57 +488,6 @@
         margin: 0 auto;
         padding: 0 20px;
     }
-    
-    /* Search Results */
-    .search-results {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: white;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        z-index: 1000;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-    
-    .search-results.active {
-        display: block;
-    }
-    
-    .search-result-item {
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    
-    .search-result-item:hover {
-        background: #f8f9fa;
-    }
-    
-    .search-result-title {
-        font-weight: 600;
-        margin-bottom: 5px;
-        color: #2c3e50;
-    }
-    
-    .search-result-category {
-        font-size: 0.85rem;
-        color: #3498db;
-        background: #e3f2fd;
-        padding: 3px 10px;
-        border-radius: 12px;
-        display: inline-block;
-    }
-    
-    .no-results {
-        padding: 20px;
-        text-align: center;
-        color: #666;
-    }
   </style>
 </head>
 <body>
@@ -615,13 +495,6 @@
     <header class="header">
         <div class="header-container">
             <a href="/" class="logo">JAM<span>TAMBAHAN</span></a>
-            
-            <!-- Search Box Desktop -->
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Cari artikel..." id="searchInput">
-                <button class="search-button" id="searchButton">🔍</button>
-                <div class="search-results" id="searchResults"></div>
-            </div>
             
             <button class="hamburger" aria-label="Menu">
                 <span></span>
@@ -634,11 +507,6 @@
                 <a href="/search?q=populer">🔥 Populer</a>
                 <a href="/p/kontak-jam-tambahan.html">📨 Kontak</a>
                 <a href="/search?q=topik">📚 Topik</a>
-                
-                <!-- Search Box Mobile - VERSI 1: DALAM MENU -->
-                <div class="mobile-search-container">
-                    <input type="text" class="mobile-search-box" placeholder="🔍 Cari artikel..." id="mobileSearchInput">
-                </div>
             </nav>
         </div>
     </header>
@@ -661,7 +529,7 @@
         
         <div class="featured-grid">
             <!-- Artikel 1 -->
-            <article class="article-card" data-category="produktivitas" data-title="5 Cara Mengatur Waktu yang Benar-benar Berhasil">
+            <article class="article-card">
                 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Manajemen Waktu" class="card-image">
                 <div class="card-content">
                     <span class="card-category">Produktivitas</span>
@@ -675,7 +543,7 @@
             </article>
             
             <!-- Artikel 2 -->
-            <article class="article-card" data-category="pengembangan-diri" data-title="Membangun Kebiasaan yang Bertahan Lama dalam 30 Hari">
+            <article class="article-card">
                 <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Kebiasaan Baik" class="card-image">
                 <div class="card-content">
                     <span class="card-category">Pengembangan Diri</span>
@@ -689,7 +557,7 @@
             </article>
             
             <!-- Artikel 3 -->
-            <article class="article-card" data-category="komunikasi" data-title="Seni Mendengarkan Aktif: Cara Memahami Bukan Hanya Mendengar">
+            <article class="article-card">
                 <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Komunikasi Efektif" class="card-image">
                 <div class="card-content">
                     <span class="card-category">Komunikasi</span>
@@ -713,7 +581,7 @@
         
         <div class="recent-grid">
             <!-- Artikel 4 -->
-            <article class="recent-article" data-category="berpikir-kritis" data-title="Berpikir Kritis di Era Informasi Berlebihan">
+            <article class="recent-article">
                 <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Critical Thinking" class="recent-image">
                 <div class="recent-content">
                     <h3>Berpikir Kritis di Era Informasi Berlebihan</h3>
@@ -726,7 +594,7 @@
             </article>
             
             <!-- Artikel 5 -->
-            <article class="recent-article" data-category="analisis-data" data-title="Membaca Data Tanpa Background Teknis">
+            <article class="recent-article">
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Analisis Data" class="recent-image">
                 <div class="recent-content">
                     <h3>Membaca Data Tanpa Background Teknis</h3>
@@ -771,18 +639,14 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // ===== HAMBURGER MENU =====
-        const hamburger = document.querySelector('.hamburger');
-        const nav = document.querySelector('.nav');
-        const body = document.body;
-        
-        hamburger.addEventListener('click', function() {
+        // Hamburger Menu Toggle - FIXED
+        document.querySelector('.hamburger').addEventListener('click', function() {
             // Toggle hamburger animation
             this.classList.toggle('active');
-            nav.classList.toggle('active');
-            body.classList.toggle('menu-open');
+            // Toggle nav menu
+            document.querySelector('.nav').classList.toggle('active');
             
-            // Animate hamburger lines
+            // Animasi untuk garis hamburger
             const spans = this.querySelectorAll('span');
             if (this.classList.contains('active')) {
                 spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
@@ -793,23 +657,17 @@
                 spans[1].style.opacity = '1';
                 spans[2].style.transform = 'none';
             }
-            
-            // Auto focus ke search box mobile saat menu terbuka
-            if (window.innerWidth <= 768 && nav.classList.contains('active')) {
-                setTimeout(() => {
-                    const mobileSearchInput = document.getElementById('mobileSearchInput');
-                    if (mobileSearchInput) mobileSearchInput.focus();
-                }, 300);
-            }
         });
         
-        // Close menu when clicking outside
+        // Close menu when clicking outside on mobile - FIXED
         document.addEventListener('click', function(event) {
+            const nav = document.querySelector('.nav');
+            const hamburger = document.querySelector('.hamburger');
+            
             if (window.innerWidth <= 768) {
                 if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
                     nav.classList.remove('active');
                     hamburger.classList.remove('active');
-                    body.classList.remove('menu-open');
                     
                     // Reset hamburger lines
                     const spans = hamburger.querySelectorAll('span');
@@ -820,16 +678,15 @@
             }
         });
         
-        // Close menu when clicking a link
+        // Close menu when clicking a link - FIXED
         document.querySelectorAll('.nav a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth <= 768) {
-                    nav.classList.remove('active');
-                    hamburger.classList.remove('active');
-                    body.classList.remove('menu-open');
+                    document.querySelector('.nav').classList.remove('active');
+                    document.querySelector('.hamburger').classList.remove('active');
                     
                     // Reset hamburger lines
-                    const spans = hamburger.querySelectorAll('span');
+                    const spans = document.querySelector('.hamburger').querySelectorAll('span');
                     spans[0].style.transform = 'none';
                     spans[1].style.opacity = '1';
                     spans[2].style.transform = 'none';
@@ -837,178 +694,7 @@
             });
         });
         
-        // ===== SEARCH FUNCTIONALITY =====
-        const searchInput = document.getElementById('searchInput');
-        const mobileSearchInput = document.getElementById('mobileSearchInput');
-        const searchButton = document.getElementById('searchButton');
-        const searchResults = document.getElementById('searchResults');
-        
-        // Artikel data untuk search
-        const articles = [
-            {
-                title: "5 Cara Mengatur Waktu yang Benar-benar Berhasil",
-                category: "Produktivitas",
-                excerpt: "Teknik manajemen waktu yang terbukti efektif berdasarkan penelitian dan pengalaman praktis.",
-                date: "15 Mar 2024",
-                readTime: "8 min baca",
-                keywords: ["waktu", "manajemen", "produktivitas", "mengatur", "efektif"]
-            },
-            {
-                title: "Membangun Kebiasaan yang Bertahan Lama dalam 30 Hari",
-                category: "Pengembangan Diri", 
-                excerpt: "Langkah demi langkah membentuk kebiasaan baru yang tidak mudah hilang setelah beberapa minggu.",
-                date: "12 Mar 2024",
-                readTime: "10 min baca",
-                keywords: ["kebiasaan", "pengembangan diri", "30 hari", "kebiasaan baik"]
-            },
-            {
-                title: "Seni Mendengarkan Aktif: Cara Memahami Bukan Hanya Mendengar",
-                category: "Komunikasi",
-                excerpt: "Teknik mendengarkan yang meningkatkan kualitas hubungan personal dan profesional.",
-                date: "10 Mar 2024",
-                readTime: "6 min baca",
-                keywords: ["mendengarkan", "komunikasi", "hubungan", "aktif"]
-            },
-            {
-                title: "Berpikir Kritis di Era Informasi Berlebihan",
-                category: "Berpikir Kritis",
-                excerpt: "Cara menyaring informasi dan mengambil keputusan yang tepat di tengah banjir data.",
-                date: "8 Mar 2024",
-                readTime: "12 min baca",
-                keywords: ["berpikir", "kritis", "informasi", "data", "analisis"]
-            },
-            {
-                title: "Membaca Data Tanpa Background Teknis",
-                category: "Analisis Data",
-                excerpt: "Panduan sederhana untuk memahami grafik, statistik, dan laporan data dalam kehidupan sehari-hari.",
-                date: "5 Mar 2024",
-                readTime: "9 min baca",
-                keywords: ["data", "analisis", "grafik", "statistik", "membaca data"]
-            }
-        ];
-        
-        // Search function
-        function performSearch(query, isMobile = false) {
-            if (!query.trim()) {
-                searchResults.classList.remove('active');
-                return;
-            }
-            
-            const searchText = query.toLowerCase();
-            const results = articles.filter(article => {
-                // Cek di title
-                if (article.title.toLowerCase().includes(searchText)) return true;
-                
-                // Cek di category
-                if (article.category.toLowerCase().includes(searchText)) return true;
-                
-                // Cek di excerpt
-                if (article.excerpt.toLowerCase().includes(searchText)) return true;
-                
-                // Cek di keywords
-                if (article.keywords) {
-                    return article.keywords.some(keyword => 
-                        keyword.toLowerCase().includes(searchText)
-                    );
-                }
-                
-                return false;
-            });
-            
-            displayResults(results, isMobile);
-        }
-        
-        // Display search results
-        function displayResults(results, isMobile = false) {
-            searchResults.innerHTML = '';
-            
-            if (results.length === 0) {
-                searchResults.innerHTML = '<div class="no-results">Tidak ditemukan artikel dengan kata kunci tersebut</div>';
-            } else {
-                results.forEach(article => {
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'search-result-item';
-                    resultItem.innerHTML = `
-                        <div class="search-result-title">${article.title}</div>
-                        <div class="search-result-category">${article.category}</div>
-                        <div style="margin-top: 8px; font-size: 0.9rem; color: #666;">${article.excerpt}</div>
-                        <div style="margin-top: 8px; font-size: 0.85rem; color: #888;">${article.date} • ${article.readTime}</div>
-                    `;
-                    
-                    resultItem.addEventListener('click', function() {
-                        alert(`Membuka artikel: "${article.title}"\n\nFitur lengkap bisa dikembangkan untuk redirect ke halaman artikel.`);
-                        searchResults.classList.remove('active');
-                        searchInput.value = '';
-                        if (mobileSearchInput) mobileSearchInput.value = '';
-                        
-                        // Tutup menu mobile setelah klik hasil
-                        if (window.innerWidth <= 768) {
-                            nav.classList.remove('active');
-                            hamburger.classList.remove('active');
-                            body.classList.remove('menu-open');
-                        }
-                    });
-                    
-                    searchResults.appendChild(resultItem);
-                });
-            }
-            
-            searchResults.classList.add('active');
-            
-            // Untuk mobile, scroll search results ke atas
-            if (isMobile && window.innerWidth <= 768) {
-                searchResults.style.position = 'fixed';
-                searchResults.style.top = '70px';
-                searchResults.style.left = '0';
-                searchResults.style.width = '100%';
-                searchResults.style.height = 'calc(100vh - 70px)';
-                searchResults.style.zIndex = '1000';
-                searchResults.style.borderRadius = '0';
-            } else {
-                searchResults.style = ''; // Reset untuk desktop
-            }
-        }
-        
-        // Event listeners for search
-        searchInput.addEventListener('input', function() {
-            performSearch(this.value);
-        });
-        
-        if (mobileSearchInput) {
-            mobileSearchInput.addEventListener('input', function() {
-                performSearch(this.value, true);
-            });
-        }
-        
-        searchButton.addEventListener('click', function() {
-            performSearch(searchInput.value);
-        });
-        
-        // Enter key for search
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch(this.value);
-            }
-        });
-        
-        if (mobileSearchInput) {
-            mobileSearchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch(this.value, true);
-                }
-            });
-        }
-        
-        // Close search results when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!searchResults.contains(event.target) && 
-                event.target !== searchInput && 
-                event.target !== mobileSearchInput) {
-                searchResults.classList.remove('active');
-            }
-        });
-        
-        // ===== SMOOTH SCROLL =====
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1025,7 +711,7 @@
             });
         });
         
-        // ===== IMAGE LAZY LOADING =====
+        // Add loading="lazy" to images
         document.addEventListener('DOMContentLoaded', function() {
             const images = document.querySelectorAll('img');
             images.forEach(img => {
@@ -1034,32 +720,15 @@
                 }
             });
             
-            // Click handler for articles
+            // Tambah click handler untuk kartu artikel
             document.querySelectorAll('.article-card, .recent-article').forEach(card => {
                 card.addEventListener('click', function() {
+                    // Untuk demo, alert saja
+                    // Nanti bisa diganti dengan redirect ke halaman artikel
                     const title = this.querySelector('h3').textContent;
                     alert(`Membuka artikel: "${title}"\n\nFitur ini bisa diarahkan ke halaman artikel lengkap.`);
                 });
             });
-        });
-        
-        // ===== INITIALIZE =====
-        window.addEventListener('resize', function() {
-            // Reset menu on resize
-            if (window.innerWidth > 768) {
-                nav.classList.remove('active');
-                hamburger.classList.remove('active');
-                body.classList.remove('menu-open');
-                
-                // Reset hamburger lines
-                const spans = hamburger.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-                
-                // Reset search results position
-                searchResults.style = '';
-            }
         });
     </script>
 </body>
