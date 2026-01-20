@@ -72,6 +72,7 @@
     
     .nav {
         display: flex;
+        align-items: center;
         gap: 30px;
     }
     
@@ -86,6 +87,127 @@
     
     .nav a:hover {
         color: #3498db;
+    }
+    
+    /* ===== SEARCH BOX STYLES ===== */
+    /* Header Search (Desktop) */
+    .search-box {
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-left: 10px;
+    }
+    
+    .search-box input {
+        padding: 10px 15px;
+        padding-right: 40px;
+        border: 2px solid #e0e0e0;
+        border-radius: 25px;
+        width: 220px;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        background: #f8f9fa;
+    }
+    
+    .search-box input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        width: 250px;
+    }
+    
+    .search-btn {
+        position: absolute;
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.3s;
+    }
+    
+    .search-btn:hover {
+        color: #3498db;
+    }
+    
+    /* Search in Menu Drawer (Mobile) */
+    .menu-search {
+        display: none;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+    }
+    
+    .menu-search input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    /* Between Sections Search */
+    .search-section {
+        padding: 50px 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        text-align: center;
+        margin: 30px 0;
+    }
+    
+    .search-section .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .search-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+    
+    .search-section p {
+        color: #666;
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+    }
+    
+    .search-section .large-search {
+        display: flex;
+        gap: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .search-section .large-search input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .search-section .large-search input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .search-section .large-search button {
+        padding: 0 25px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .search-section .large-search button:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     
     /* ===== HERO SECTION ===== */
@@ -340,6 +462,14 @@
         .footer-container {
             grid-template-columns: repeat(2, 1fr);
         }
+        
+        .search-box input {
+            width: 180px;
+        }
+        
+        .search-box input:focus {
+            width: 200px;
+        }
     }
     
     @media (max-width: 768px) {
@@ -367,6 +497,7 @@
             transition: 0.3s;
             gap: 0;
             z-index: 999;
+            align-items: stretch;
         }
         
         .nav.active {
@@ -381,6 +512,16 @@
         
         .nav a:last-child {
             border-bottom: none;
+        }
+        
+        /* Header Search Hidden on Mobile */
+        .search-box {
+            display: none;
+        }
+        
+        /* Show Search in Menu Drawer */
+        .menu-search {
+            display: block;
         }
         
         .hero h1 {
@@ -409,6 +550,22 @@
             grid-template-columns: 1fr;
             text-align: center;
             gap: 30px;
+        }
+        
+        .search-section {
+            padding: 40px 20px;
+        }
+        
+        .search-section h3 {
+            font-size: 1.5rem;
+        }
+        
+        .search-section .large-search {
+            flex-direction: column;
+        }
+        
+        .search-section .large-search button {
+            padding: 15px;
         }
         
         /* Touch Optimization */
@@ -460,6 +617,10 @@
             flex-direction: column;
             gap: 5px;
         }
+        
+        .search-section {
+            padding: 30px 15px;
+        }
     }
     
     /* ===== UTILITIES ===== */
@@ -503,10 +664,21 @@
             </button>
             
             <nav class="nav">
+                <!-- Search Box in Menu (Mobile Only) -->
+                <div class="menu-search">
+                    <input type="search" placeholder="🔍 Cari artikel..." id="mobile-search">
+                </div>
+                
                 <a href="/">🏠 Beranda</a>
                 <a href="/search?q=populer">🔥 Populer</a>
                 <a href="/p/kontak-jam-tambahan.html">📨 Kontak</a>
                 <a href="/search?q=topik">📚 Topik</a>
+                
+                <!-- Search Box in Header (Desktop Only) -->
+                <div class="search-box">
+                    <input type="search" placeholder="Cari artikel..." id="header-search">
+                    <button class="search-btn" aria-label="Search">🔍</button>
+                </div>
             </nav>
         </div>
     </header>
@@ -569,6 +741,18 @@
                     </div>
                 </div>
             </article>
+        </div>
+    </section>
+
+    <!-- SEARCH BETWEEN SECTIONS -->
+    <section class="search-section">
+        <div class="container">
+            <h3>Tidak menemukan yang Anda cari?</h3>
+            <p>Cari topik evergreen lainnya yang mungkin Anda butuhkan</p>
+            <div class="large-search">
+                <input type="search" placeholder="Contoh: produktivitas, komunikasi, pengembangan diri..." id="main-search">
+                <button type="button" id="main-search-btn">Cari Artikel</button>
+            </div>
         </div>
     </section>
 
@@ -639,7 +823,7 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // Hamburger Menu Toggle - FIXED
+        // Hamburger Menu Toggle
         document.querySelector('.hamburger').addEventListener('click', function() {
             // Toggle hamburger animation
             this.classList.toggle('active');
@@ -659,7 +843,7 @@
             }
         });
         
-        // Close menu when clicking outside on mobile - FIXED
+        // Close menu when clicking outside on mobile
         document.addEventListener('click', function(event) {
             const nav = document.querySelector('.nav');
             const hamburger = document.querySelector('.hamburger');
@@ -678,7 +862,7 @@
             }
         });
         
-        // Close menu when clicking a link - FIXED
+        // Close menu when clicking a link
         document.querySelectorAll('.nav a').forEach(link => {
             link.addEventListener('click', function() {
                 if (window.innerWidth <= 768) {
@@ -724,11 +908,125 @@
             document.querySelectorAll('.article-card, .recent-article').forEach(card => {
                 card.addEventListener('click', function() {
                     // Untuk demo, alert saja
-                    // Nanti bisa diganti dengan redirect ke halaman artikel
                     const title = this.querySelector('h3').textContent;
                     alert(`Membuka artikel: "${title}"\n\nFitur ini bisa diarahkan ke halaman artikel lengkap.`);
                 });
             });
+            
+            // SEARCH FUNCTIONALITY
+            const searchHandlers = {
+                init: function() {
+                    // Header search
+                    const headerSearch = document.getElementById('header-search');
+                    const headerSearchBtn = document.querySelector('.search-btn');
+                    
+                    if (headerSearch && headerSearchBtn) {
+                        headerSearchBtn.addEventListener('click', () => this.performSearch(headerSearch.value));
+                        headerSearch.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') this.performSearch(headerSearch.value);
+                        });
+                    }
+                    
+                    // Mobile search
+                    const mobileSearch = document.getElementById('mobile-search');
+                    if (mobileSearch) {
+                        mobileSearch.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') {
+                                this.performSearch(mobileSearch.value);
+                                // Close menu after search on mobile
+                                if (window.innerWidth <= 768) {
+                                    document.querySelector('.nav').classList.remove('active');
+                                    document.querySelector('.hamburger').classList.remove('active');
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Main search (between sections)
+                    const mainSearch = document.getElementById('main-search');
+                    const mainSearchBtn = document.getElementById('main-search-btn');
+                    
+                    if (mainSearch && mainSearchBtn) {
+                        mainSearchBtn.addEventListener('click', () => this.performSearch(mainSearch.value));
+                        mainSearch.addEventListener('keypress', (e) => {
+                            if (e.key === 'Enter') this.performSearch(mainSearch.value);
+                        });
+                    }
+                    
+                    // Populate search with example on focus
+                    this.setupSearchExamples();
+                },
+                
+                performSearch: function(query) {
+                    if (!query.trim()) {
+                        alert('Silakan masukkan kata kunci pencarian');
+                        return;
+                    }
+                    
+                    // Simulasi pencarian - bisa diganti dengan redirect ke halaman search
+                    console.log(`Searching for: ${query}`);
+                    
+                    // Highlight matching articles (demo only)
+                    this.highlightArticles(query);
+                    
+                    // Show search results (demo)
+                    alert(`Menampilkan hasil untuk: "${query}"\n\nFitur pencarian nyata akan mengarahkan ke halaman hasil search.`);
+                },
+                
+                highlightArticles: function(query) {
+                    // Demo: highlight articles that match the search
+                    const cards = document.querySelectorAll('.article-card, .recent-article');
+                    const lowerQuery = query.toLowerCase();
+                    
+                    cards.forEach(card => {
+                        const title = card.querySelector('h3').textContent.toLowerCase();
+                        const excerpt = card.querySelector('p').textContent.toLowerCase();
+                        const category = card.querySelector('.card-category')?.textContent.toLowerCase() || '';
+                        
+                        if (title.includes(lowerQuery) || excerpt.includes(lowerQuery) || category.includes(lowerQuery)) {
+                            card.style.boxShadow = '0 0 0 3px #3498db';
+                            setTimeout(() => {
+                                card.style.boxShadow = '';
+                            }, 2000);
+                        }
+                    });
+                },
+                
+                setupSearchExamples: function() {
+                    const searchInputs = document.querySelectorAll('input[type="search"]');
+                    const examples = [
+                        'produktivitas',
+                        'manajemen waktu', 
+                        'pengembangan diri',
+                        'komunikasi efektif',
+                        'kebiasaan baik'
+                    ];
+                    
+                    searchInputs.forEach(input => {
+                        // Set placeholder with random example
+                        const randomExample = examples[Math.floor(Math.random() * examples.length)];
+                        input.placeholder = `Contoh: ${randomExample}...`;
+                        
+                        // Show example text on focus (demo)
+                        input.addEventListener('focus', function() {
+                            if (!this.value) {
+                                this.setAttribute('data-placeholder', this.placeholder);
+                                this.placeholder = 'Ketik dan tekan Enter...';
+                            }
+                        });
+                        
+                        input.addEventListener('blur', function() {
+                            const original = this.getAttribute('data-placeholder');
+                            if (original && !this.value) {
+                                this.placeholder = original;
+                            }
+                        });
+                    });
+                }
+            };
+            
+            // Initialize search functionality
+            searchHandlers.init();
         });
     </script>
 </body>
