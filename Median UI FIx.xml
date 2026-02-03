@@ -1,129 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateUrl='unPlug' b:templateVersion='1.5.5' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale.language' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
-  <b:attr name='xmlns' value=''/>
-  <b:attr name='xmlns:b' value=''/>
-  <b:attr name='xmlns:expr' value=''/>
-  <b:attr name='xmlns:data' value=''/>
   <b:attr cond='data:blog.locale.language == &quot;in&quot;' name='lang' value='id'/>
     
   <!--[ <head> open ]-->
   &lt;head&gt;
 
-  <b:comment>Title that appears in search results</b:comment>
-  <b:if cond='data:view.isMultipleItems'>
-    <b:if cond='data:view.isHomepage'>
-      <!--[ Homepage title ]-->
-      <title><data:blog.title/></title>
-      
-      <b:elseif cond='data:view.search.query'/>
-      <!--[ Search title ]-->
-      <title><data:messages.search/>: <data:view.search.query/></title>
-      
-      <b:elseif cond='data:view.search.label'/>
-      <!--[ Label title ]-->
-      <title><data:blog.pageName/> - <data:blog.title/></title>
-      
-      <b:elseif cond='data:view.isArchive'/>
-      <!--[ Archive title ]-->
-      <title>Blog archive in: <data:blog.pageName/></title>
-      
-      <b:else/>
-      <title>Blog - <data:blog.title/></title>
-    </b:if>
-    
-    <b:elseif cond='data:view.isError'/>
-    <!--[ Error title ]-->
-    <title>Error 404: Not Found!</title>
-    
-    <b:else/>
-    <!--[ SingleItem title ]-->
-    <b:comment>It will omit the blog title when the character count exceeds 57</b:comment>
-    <b:if cond='(data:blog.pageName.length + data:blog.title.length) gt 57'>
-      <title><data:blog.pageName/></title>
-      <b:else/>
-      <title><data:blog.pageName/> - <data:blog.title/></title>
-    </b:if>
-  </b:if>
+<!-- Title -->
+<b:if cond='data:view.isSingleItem'>
+  <title><data:blog.pageName/> - <data:blog.title/></title>
+<b:elseif cond='data:view.search.query'/>
+  <title><data:messages.search/>: <data:view.search.query/></title>
+<b:elseif cond='data:view.isArchive'/>
+  <title>Archive: <data:blog.pageName/> - <data:blog.title/></title>
+<b:else/>
+  <title><data:blog.title/></title>
+</b:if>
 
-  <!--[ Meta for browser ]-->
-  <meta charset='UTF-8'/>
-  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
-  <meta content='max-image-preview:large' name='robots'/>
+<!-- Charset & Viewport -->
+<meta charset='UTF-8'/>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'/>
 
-  <!-- Link canonical -->
-  <link expr:href='data:blog.url.canonical' rel='canonical'/>
+<!-- Robots -->
+<meta content='index,follow,max-image-preview:large' name='robots'/>
 
-  <b:if cond='!data:view.isError'>
-    <!--[ Description and keyword ]-->
-    <b:if cond='data:blog.metaDescription'>
-      <meta expr:content='data:blog.metaDescription.escaped' name='description'/>
-      <b:elseif cond='data:view.isSingleItem'/>
-      <meta expr:content='data:post.snippet.escaped snippet { length: 147, links: false, linebreaks: false, ellipsis: false }' name='description'/>
-      <b:else/>
-      <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped' name='description'/>
-    </b:if>
-    <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped + &quot;, keyword_1, keyword_2, keyword_3 &quot;' name='keywords'/>
-    <b:tag cond='data:view.isPost' expr:href='resizeImage(data:blog.postImageUrl, 0)' name='link' rel='image_src'/>
+<!-- Canonical -->
+<link expr:href='data:blog.url.canonical' rel='canonical'/>
+
+<!-- Description -->
+<b:if cond='data:view.isSingleItem'>
+  <meta expr:content='data:post.snippet.escaped snippet { length: 155, links: false, linebreaks: false, ellipsis: false }' name='description'/>
+<b:elseif cond='data:blog.metaDescription'/>
+  <meta expr:content='data:blog.metaDescription.escaped' name='description'/>
+<b:else/>
+  <meta expr:content='data:blog.title.escaped' name='description'/>
+</b:if>
+
+<!-- Theme color -->
+<meta expr:content='data:skin.vars.themeColor' name='theme-color'/>
+<meta expr:content='data:skin.vars.themeColor' name='msapplication-navbutton-color'/>
+<meta expr:content='data:skin.vars.themeColor' name='apple-mobile-web-app-status-bar-style'/>
+<meta content='true' name='apple-mobile-web-app-capable'/>
+
+<!-- Favicon -->
+<link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>
+<link expr:href='data:blog.blogspotFaviconUrl' rel='apple-touch-icon'/>
+
+<!-- Open Graph -->
+<meta expr:content='data:blog.title.escaped' property='og:site_name'/>
+<meta expr:content='data:blog.url.canonical' property='og:url'/>
+
+<b:if cond='data:view.isSingleItem'>
+  <meta content='article' property='og:type'/>
+  <meta expr:content='data:blog.pageName.escaped' property='og:title'/>
+  <meta expr:content='data:post.snippet.escaped snippet { length: 155, links: false, linebreaks: false, ellipsis: false }' property='og:description'/>
+<b:else/>
+  <meta content='website' property='og:type'/>
+  <meta content='Bangun dengan Senyum! ⏰🎉' property='og:title'/>
+  <meta content='Temui jam weker kartun ceria yang siap bikin harimu lebih happy. Cocok untuk blog, sosial media, atau halaman apa saja!' property='og:description'/>
+</b:if>
+
+<b:if cond='data:blog.postImageUrl'>
+  <meta expr:content='resizeImage(data:blog.postImageUrl, 0)' property='og:image'/>
+<b:else/>
+  <meta content='https://i.imgur.com/dFaQdSJ.png' property='og:image'/>
+</b:if>
+
+<!-- Twitter Card -->
+<meta content='summary_large_image' name='twitter:card'/>
+<meta content='@Candra_Junie' name='twitter:site'/>
   
-    <!--[ Generator and RRS ]-->
-    <meta content='blogger' name='generator'/>
-    <link expr:href='data:blog.homepageUrl.canonical + &quot;feeds/posts/default&quot;' expr:title='data:blog.title + &quot; - Atom&quot;' rel='alternate' type='application/atom+xml'/>
-    <link expr:href='data:blog.homepageUrl.canonical + &quot;feeds/posts/default?alt=rss&quot;' expr:title='data:blog.title + &quot; - Feed&quot;' rel='alternate' type='application/rss+xml'/>
-    <link expr:href='data:blog.homepageUrl.canonical + &quot;feeds/comments/default?alt=rss&quot;' expr:title='data:blog.title + &quot; - Comments Feed&quot;' rel='alternate' type='application/rss+xml'/>
+<b:if cond='data:view.isSingleItem'>
+  <meta expr:content='data:blog.pageName.escaped' name='twitter:title'/>
+  <meta expr:content='data:post.snippet.escaped snippet { length: 155, links: false, linebreaks: false, ellipsis: false }' name='twitter:description'/>
+<b:else/>
+  <meta content='Bangun dengan Senyum! ⏰🎉' name='twitter:title'/>
+  <meta content='Temui jam weker kartun ceria yang siap bikin harimu lebih happy. Cocok untuk blog, sosial media, atau halaman apa saja!' name='twitter:description'/>
+</b:if>
+
+<b:if cond='data:blog.postImageUrl'>
+  <meta expr:content='resizeImage(data:blog.postImageUrl, 0)' name='twitter:image'/>
+<b:else/>
+  <meta content='https://i.imgur.com/dFaQdSJ.png' name='twitter:image'/>
+</b:if>
   
-    <!--[ Theme color ]-->
-    <meta expr:content='data:skin.vars.themeColor' name='theme-color'/>
-    <meta expr:content='data:skin.vars.themeColor' name='msapplication-navbutton-color'/>
-    <meta expr:content='data:skin.vars.themeColor' name='apple-mobile-web-app-status-bar-style'/>
-    <meta expr:content='true' name='apple-mobile-web-app-capable'/>
-  
-    <!--[ Favicon ]-->
-    <link expr:href='data:blog.blogspotFaviconUrl' rel='apple-touch-icon' sizes='152x152'/>
-    <link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>
-    <link expr:href='data:blog.blogspotFaviconUrl' rel='shortcut icon' type='image/x-icon'/>
-    
-    <!--[ Open graph and Twitter card ]-->
-    <meta content='summary_large_image' name='twitter:card'/>
-    <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped' property='og:title'/>
-    <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped' name='twitter:title'/>
-    <meta expr:content='data:blog.url.canonical' property='og:url'/>
-    <meta expr:content='data:blog.url.canonical' name='twitter:url'/>
-    <meta expr:content='data:blog.title.escaped' property='og:site_name'/>
-    <b:if cond='data:view.isMultipleItems'>
-      <meta content='website' property='og:type'/>
-      <b:if cond='data:blog.metaDescription'>
-        <meta expr:content='data:blog.metaDescription.escaped' property='og:description'/>
-        <meta expr:content='data:blog.metaDescription.escaped' name='twitter:description'/>
-        <b:else/>
-        <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped' property='og:description'/>
-        <meta expr:content='data:blog.pageName.escaped ? data:blog.pageName.escaped : data:blog.title.escaped' name='twitter:description'/>
-      </b:if>
-      <b:else/>
-      <meta content='article' property='og:type'/>
-      <b:if cond='data:blog.metaDescription'>
-        <meta expr:content='data:blog.metaDescription.escaped' property='og:description'/>
-        <meta expr:content='data:blog.metaDescription.escaped' name='twitter:description'/>
-        <b:else/>
-        <meta expr:content='data:post.snippet.escaped snippet { length: 147, links: false, linebreaks: false, ellipsis: false }' property='og:description'/>
-        <meta expr:content='data:post.snippet.escaped snippet { length: 147, links: false, linebreaks: false, ellipsis: false }' name='twitter:description'/>
-      </b:if>
-    </b:if>
-    <b:if cond='data:blog.postImageUrl'>
-      <meta expr:content='resizeImage(data:blog.postImageUrl, 0)' property='og:image'/>
-      <meta expr:content='resizeImage(data:blog.postImageUrl, 0)' name='twitter:image:src'/>
-      <b:else/>
-      
-      <b:comment>Replace Add_your_image_url_here with your image url</b:comment>
-      <b:with value='{url: &quot;Add_your_image_url_here&quot;}' var='thumb'>
-        <meta expr:content='data:thumb.url' property='og:image'/>
-        <meta expr:content='data:thumb.url' name='twitter:image:src'/>
-      </b:with>
-    </b:if>
-    
-    <!--[ Additional meta is here ]-->
-    
-  </b:if>
+  <script async='async' src='https://www.googletagmanager.com/gtag/js?id=G-8J0H5NEHH5'/>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(&#39;js&#39;, new Date());
+  gtag(&#39;config&#39;, &#39;G-8J0H5NEHH5&#39;); <!-- Ganti dengan GA4 ID -->
+</script>
   
   <b:if cond='!data:view.isLayoutMode'>
     <!--[ CSS Stylesheet ]-->
@@ -135,13 +102,13 @@
 
 <Group description="Basic and color">
   <Variable name="fontSize" description="Basic font size" type="length" max="18px" default="14px" value="14px"/>
-  <Variable name="themeLink" description="Link and button" type="color" default="#3740ff" value="#3740ff"/>
-  <Variable name="themeC" description="Basic text color" type="color" default="#0e2045" value="#0e2045"/>
-  <Variable name="themeC.alt" description="Alternative text color(opacity 80%)" type="color" default="#0e2045" value="#0e2045"/>
-  <Variable name="themeBg" description="Basic background" type="color" default="#fffdfc" value="#fffdfc"/>
-  <Variable name="themeBg.alt" description="Alternative background 01" type="color" default="#f9f9fb" value="#f9f9fb"/>
-  <Variable name="themeBg.sec" description="Alternative background 02" type="color" default="#f5f3f2" value="#f5f3f2"/>
-  <Variable name="themeBd.color" description="Default border-color" type="color" default="#e4e3e1" value="#e4e3e1"/>
+  <Variable name="themeLink" description="Link and button" type="color" default="#00857c" value="#00857c"/>
+  <Variable name="themeC" description="Basic text color" type="color" default="#272733" value="#272733"/>
+  <Variable name="themeC.alt" description="Alternative text color" type="color" default="#536471" value="#536471"/>
+  <Variable name="themeBg" description="Basic background" type="color" default="#fdfdfd" value="#fdfdfd"/>
+  <Variable name="themeBg.alt" description="Alternative background 01" type="color" default="#f3f4f6" value="#f3f4f6"/>
+  <Variable name="themeBg.sec" description="Alternative background 02" type="color" default="#ebedf1" value="#ebedf1"/>
+  <Variable name="themeBd.color" description="Default border-color" type="color" default="#d2d7e2" value="#d2d7e2"/>
 </Group>
 
 <Group description="Dark mode">
@@ -171,12 +138,12 @@
 <Group description="Header" selector="header.mainH">
   <Variable name="headerHeight" description="Header max-height" type="length" max="100px" default="65px" value="65px"/>
   <Variable name="headerHeight.phone" description="Header max-height(mobile)" type="length" max="100px" default="65px" value="52px"/>
-  <Variable name="headerC" description="Header color" type="color" default="$(themeC)" value="#0e2045"/>
-  <Variable name="headerBg" description="Header background" type="color" default="$(themeBg)" value="#fffdfc"/>
+  <Variable name="headerC" description="Header color" type="color" default="$(themeC)" value="#272733"/>
+  <Variable name="headerBg" description="Header background" type="color" default="$(themeBg)" value="#fdfdfd"/>
   <Variable name="headerBd.line" description="Header border-width" type="length" max="2px" default="1px" value="1px"/>
   <Variable name="headerBd.radiusBL" description="Header border-radius(bottom-left/mobile only)" type="length" max="20px" default="0px" value="0px"/>
   <Variable name="headerBd.radiusBR" description="Header border-radius(bottom-right/mobile only)" type="length" max="20px" default="0px" value="0px"/>
-  <Variable name="headerBd.color" description="Header border-color" type="color" default="$(themeBd.color)" value="#e4e3e1"/>
+  <Variable name="headerBd.color" description="Header border-color" type="color" default="$(themeBd.color)" value="#d2d7e2"/>
 </Group>
 
 <Group description="Side navigation" selector="div.mainL">
@@ -184,14 +151,14 @@
   <Variable name="sideWidth.expand" description="Side width(expand)" type="length" max="300px" default="230px" value="230px"/>
   <Variable name="sideWidth.max" description="Side max-width(mobile only)" type="length" max="500px" default="480px" value="480px"/>
   <Variable name="sideMargin" description="Side margin(mobile only)" type="length" max="22px" default="0px" value="0px"/>
-  <Variable name="sideC" description="Side color" type="color" default="$(themeC)" value="#0e2045"/>
-  <Variable name="sideBg" description="Side background" type="color" default="$(themeBg)" value="#fffdfc"/>
+  <Variable name="sideC" description="Side color" type="color" default="$(themeC)" value="#272733"/>
+  <Variable name="sideBg" description="Side background" type="color" default="$(themeBg)" value="#fdfdfd"/>
   <Variable name="sideBd.line" description="Side border-width" type="length" max="2px" default="1px" value="1px"/>
   <Variable name="sideBd.radiusTL" description="Side border-radius(top-left/mobile only)" type="length" max="20px" default="0px" value="0px"/>
   <Variable name="sideBd.radiusTR" description="Side border-radius(top-right/mobile only)" type="length" max="20px" default="0px" value="0px"/>
   <Variable name="sideBd.radiusBL" description="Side border-radius(bottom-left/mobile only)" type="length" max="20px" default="0px" value="0px"/>
   <Variable name="sideBd.radiusBR" description="Side border-radius(bottom-right/mobile only)" type="length" max="20px" default="0px" value="0px"/>
-  <Variable name="sideBd.color" description="Side border-color" type="color" default="$(themeBd.color)" value="#e4e3e1"/>
+  <Variable name="sideBd.color" description="Side border-color" type="color" default="$(themeBd.color)" value="#d2d7e2"/>
 </Group>
 
 <Group description="Sidebar" selector="aside.sideB">
@@ -305,6 +272,7 @@
   Name      : Median-UI-1.7-Blogger-Template-With-WhatsApp-Live-Chat  
   Demo site   : median-ui.jagodesain.com
   Powered by    : jagodesain.com
+  WhatsApp Integrated By : https://imamuddinwp.com
   ============================================================================
   NOTE:
   This theme is premium (paid). You can only get it by purchasing officially.
@@ -478,10 +446,10 @@
 --postBody-fontPhone: 1.2rem ;
 
 /* var: Post typo */
---postBreak: 3em ;
+--postBreak: 1.2em ;
 --postImageBd-radius: 2px;
---lineHeight: 1.7 ;
---lineSpacing: 1.8em ;
+--lineHeight: 1.55 ;
+--lineSpacing: 1.1em ;
 --tableBg-color: rgb(246 246 246 / 80%) ;
 
 /* var: Post thumbnail */
@@ -670,7 +638,7 @@
 /* Widget: Blog - pagination */ .blogN, .blogPg{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px; margin-block:calc(var(--contentSpace) * 1.5) 0} .blogN.n{justify-content:center} .blogN >*{font-size:inherit} .blogN >*::after{content:attr(data-text)} .blogN .m{cursor:not-allowed; color:var(--themeC-alt);background-color:var(--contentBg-sec)} .blogN .np{flex-direction:row-reverse} .blogN .np::after{content:var(--pageNext)} .blogN .pp{/*align-self:center;*/ margin-inline:-2px auto} .blogN .pp::after{content:var(--pagePrev)} .blogN .pp svg{width:14px;height:14px} .blogN svg.line{stroke-width:1.5} .blogN .j{margin-inline:auto} .blogN .j:not(.m){cursor:pointer} .blogN .j.n{background:transparent}
 /* Widget: Blog - product */ .shop .pPad{margin-block:15px} .shop .pPric{display:flex;flex-direction:column; margin-block-start:30px;color:var(--themeLink);font-size:1.8rem} .shop .pPric i{font-style:normal} .shop .pPric .strike{order:2;color:var(--themeC); font-size:small;opacity:.8} .shop .pPric .price{font-weight:600;line-height:1.4} .shop .pPric::before{content:attr(data-text)} .shop .pPric::before, .shop .pInfo small{display:block;color:var(--themeC); font-size:small; opacity:.8} .shop .pInfo{font-size:1rem} .shop .pInfo:not(.o){--gap:20px; display:flex;gap:var(--gap)} .shop .pInfo:not(.o) >*{width:calc((100% / 2) - (var(--gap) / 2))} .shop .pMart{display:flex;flex-wrap:wrap;gap:8px 10px; margin-block:15px} .shop .pMart small{width:100%} .shop .pMart a{display:flex;align-items:center;justify-content:center; width:34px;height:34px;padding:4px;border:1px solid var(--contentBd-color);border-radius:12px;overflow:hidden}
 /* Widget: Blog - post */ /* thumbnail and comment count */ .pI{position:relative; border-radius:var(--contentBd-radius);background-color:var(--contentBg-alt); overflow:hidden} .pI .thumbnail{display:block;position:inherit; padding-top:var(--thumbnailRatio)} .pI .thumbnail amp-img{position:absolute;top:50%;left:50%; min-width:100%;min-height:100%;max-height:100%; text-align:center;transform:translate(-50%, -50%)} .pI.youtube:not(.noImage) .thumbnail::after{content:''; display:flex;align-items:center;justify-content:center; position:absolute;top:0;left:0;right:0;bottom:0; background:rgb(0 0 0 / 30%) url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23fffdfc'><path d='M133 440a35.37 35.37 0 01-17.5-4.67c-12-6.8-19.46-20-19.46-34.33V111c0-14.37 7.46-27.53 19.46-34.33a35.13 35.13 0 0135.77.45l247.85 148.36a36 36 0 010 61l-247.89 148.4A35.5 35.5 0 01133 440z'/></svg>") center / 24px no-repeat; opacity:0;transition:opacity var(--tDuration), -webkit-backdrop-filter var(--tDuration), backdrop-filter var(--tDuration); -webkit-backdrop-filter:saturate(180%) blur(10px); backdrop-filter:saturate(180%) blur(10px)} .pI.youtube:not(.noImage):hover .thumbnail::after{opacity:1} .pI.youtube img{max-width:100%;max-height:none} .pI .img{position:absolute;top:50%;left:50%; max-width:110%;max-height:100%; font-size:.7em;text-align:center; transform:translate(-50%, -50%)} .pI .img.null::before{content:var(--noImage)} .pI .bar{justify-content:flex-end;flex-direction:row-reverse;gap:6px; position:absolute;top:0; padding:8px; font-size:.76em} .pI .bar:not(.r){right:0} .pI .bar.r{left:0} .pI .bar >*{gap:3px; padding:4px 5px;border-radius:12px; color:#0e2045;background-color:#fffdfc; box-shadow:5px 5px 15px 0 rgb(0 0 0 / 10%)} .pI .bar >*:hover{filter:none} .pI .bar >*:not(.tag)::before{content:attr(data-text); text-indent:2px; opacity:.8} .pI .bar >.discount{background-color:#fff6bf} .pI .bar >.discount::before{opacity:1} /* head, time and label */ .time:not(.timeAgo)::before, .jump::before{content:attr(data-text)} .pH .reading::before{content:var(--readtimeBefore) ' '; margin-inline:5px} .pH .reading::after{content:' ' var(--readtimeAfter)} .pH.info{justify-content:flex-start;align-items:baseline; margin-block-end:8px} .pH.info .label::before{opacity:.8} .pH.info .label::before, .pH.info .label [data-text]::before{content:attr(data-text)} .pH.info .label >span:not(:first-child)::before{content:var(--breadcrumbs);opacity:.8} .pH.info .label [data-text]{display:inline;padding-block:4px} .pH.info .label a:hover{text-decoration:underline} .pH:not(.info){--gap:8px;--imgWidth:28px;--fontDate:inherit;--fontDate-phone:.93em; align-items:center;gap:var(--gap); margin-block:20px 25px} .pH:not(.info).tag{margin-block-start:25px} .pH:not(.info) .avatar.im{width:var(--imgWidth);height:var(--imgWidth)} .pH:not(.info) .m{display:inline-block;line-height:1.3} .pH:not(.info) .m::after{content:attr(data-text); margin-inline-end:5px} .pH:not(.info) .date{font-size:var(--fontDate); white-space:nowrap} .pH:not(.info) .time.update:not(.timeAgo)::before{content:var(--latestUpdate) ' ' attr(data-text)} .pH .item{width:calc(100% - (100px + var(--imgWidth)))} .pH .share{gap:10px; max-width:100px; margin-inline-start:auto; font-size:var(--fontDate)} .pH .share [aria-label=Share]{gap:7px; flex-direction:row-reverse} .pH .share [aria-label=Share]::before{content:attr(data-text)} /* title */ .pT .name{margin:0} .pT .name:not(.item){font:var(--postTitle-fontWg) var(--postTitle-fontItems)/1.3 var(--fontBody-alt);} .pT .item{font:var(--postTitle-fontWg) var(--postTitle-font)/1.3 var(--fontBody-alt)} .pT a:hover{text-decoration:underline} /* snippet */ .pS .snippet{margin-block:.75em .5em; line-height:1.5} .pS:not(.noImage) .snippet{display:-webkit-box} /* description */ .pD{margin-block:15px 25px; font:var(--postDescription-font)/1.4 var(--fontBody-alt)} /* foot */ .pF.items{gap:5px; margin-block-start:auto;padding-top:5px} .pF.items.shop{display:none} .pF.item{gap:var(--contentSpace); margin-top:var(--contentSpace)} .pF .jump{margin-inline-start:auto} .pF .jump:not(.sponsor){opacity:0; transition:var(--tShowHide)} .pF .jump:hover{text-decoration:underline} .pF .label{gap:10px} .pF .label >*::before{content:attr(aria-label)} .pF .label >*:hover{text-decoration:underline} .pF .labels .flex{gap:8px;flex-wrap:wrap;align-items:center} .pF .labels .flex >*{padding:8px 14px;border:1px solid var(--contentBd-color);border-radius:20px} .pF .labels .flex >*:not(label):hover{border-color:var(--themeLink);box-shadow:0 0 0 .5px var(--themeLink) inset} .pF .labels .flex >*:not(label)::before{content:attr(aria-label)} .pF .labels .li:not(:checked) ~ .flex >*:not(.s), .pF .labels .li:checked ~ .flex label{display:none} .pF .labels .flex label{padding-inline:0;border:0} .pF .labels .flex label::before{content:attr(data-show)} /* share */ .shared{position:fixed;left:0;right:0; z-index:10} .shareB .popIn{max-width:480px} .shareI{gap:30px} .shareL{display:grid;grid-template-columns:repeat(auto-fit, minmax(50px, 1fr));grid-auto-rows:50px;grid-gap:35px 15px; padding-bottom:30px} .shareL >[data-text]{position:relative} .shareL >[data-text]::after{content:attr(data-text);position:absolute; left:0;right:0;bottom:-18px; text-align:center;opacity:.8} .shareL >[data-text] >*{width:50px;height:50px;margin-inline:auto;border-radius:20px;background-color:var(--contentBg-alt);overflow:hidden} .shareC::before{content:var(--copyLink); opacity:.8} .shareC .copy{--gap:15px; align-items:center;gap:var(--gap); margin-top:15px;padding-inline:15px;border:1px solid var(--contentBd-color);border-radius:var(--contentBd-radius); overflow:hidden; transition:border var(--tDuration), background var(--tDuration), box-shadow var(--tDuration)} .shareC label{flex-shrink:0; padding:10px 0;color:var(--themeLink)} .shareC input{flex-grow:1; padding:16px 0;border:0;outline:0;background-color:transparent;opacity:.6} .shareC input:focus, .shareC .copy:hover input{opacity:1} /* writter */ .authors{gap:10px; padding-block:var(--contentPadding);border-block:1px solid var(--contentBd-color);background-color:var(--contentBg)} .authors .name{width:calc(100% - (40px + 14px));max-width:400px} .authors .m::before{content:attr(data-write) ' '; opacity:.8} .authors .m::after{content:attr(data-text); font-weight:500} .authors .d{margin-top:4px} .authors .namei:not(:checked) ~ .d label::before{content:attr(data-text); color:var(--themeLink)} .authors .namei:not(:checked) ~ .d .clamp{display:-webkit-box;-webkit-line-clamp:1} 
-/* component */ .pE{position:relative;margin-top:40px; font:var(--postBody-font)/var(--lineHeight) var(--fontBody); transition:font var(--tDuration)} /* head */ .pE h1, .pE h2, .pE h3, .pE h4, .pE h5, .pE h6{margin-top:1em; line-height:1.3;font-family:var(--fontBody-alt)} .pE h1:target, .pE h2:target, .pE h3:target, .pE h4:target, .pE h5:target, .pE h6:target{margin-top:0;padding-top:var(--headerHeight)} .pE :is(h1, h2, h3, h4, h5, h6).h::before{content:attr(data-text)} /* Paragraph */ .pE p{margin-block:var(--lineSpacing)} .pRef{font:1rem/1.4 var(--fontBody-alt); opacity:.8;word-break:break-word} .pRef ol, .pRef ul{padding-inline-start:30px} .pIndent{text-indent:2.2em} .pE:not(.r) .dropCap{float:left;margin-block-start:5px;margin-inline-end:8px; font:3.4em/45px var(--fontBody-alt)} .pE hr{margin-block:var(--postBreak); border:0; font:24px var(--fontCode)} .pE hr::before{content:'\007E'; display:block; letter-spacing:.6em;text-indent:.6em;text-align:center; opacity:.8;clear:both} .pE hr.dot::before{content:'\2027 \2027 \2027'} .pE hr.line::before{content:'';border-bottom:1px solid var(--contentBd-color)} /* blockquote */ blockquote{position:relative; margin-inline:0;padding-block:8px;padding-inline-start:20px;border-inline-start:1px solid var(--contentBd-color); font-size:.97em;line-height:1.6; opacity:.8} blockquote.s-1, details.sp{padding-block:1.7em;padding-inline-start:40px; border-block:1px solid var(--contentBd-color);border-inline-start:0} blockquote.s-1::before{content:'\201D'; position:absolute;top:5px; font-size:60px;line-height:normal;opacity:.5} .pE:not(.r) blockquote.s-1::before{left:4px} .pE.r blockquote.s-1::before{right:4px}  /* img */ .pE img, .cm img{ display:block; max-width:100%; width:auto; margin:2em auto; border-radius:var(--postImageBd-radius) } /* scroll-img */ .psImg{--gap:14px; display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:var(--gap); margin-block:var(--lineSpacing)} .psImg img{display:block} .psImg >*{width:calc((100% / 2) - (var(--gap) / 2)); position:relative} .scImg >*{width:calc((100% / 3) - (var(--gap) * 2/3))} .btImg label{display:flex;align-items:center;justify-content:center; position:absolute;top:0;left:0;right:0;bottom:0; font-size:.93rem;font-family:var(--fontBody-alt); border-radius:var(--postImageBd-radius); color:#d9e2f0;background-color:var(--themeBg-pop); transition:var(--tShowHide); -webkit-backdrop-filter:saturate(180%) blur(10px); backdrop-filter:saturate(180%) blur(10px)} .hdImg .shImg{width:100%; margin-block:0} .inImg:not(:checked) ~ .hdImg .shImg{display:none} .inImg:checked ~ .hdImg .btImg label{opacity:0;visibility:hidden} /* caption */ figure{margin-inline:0} figcaption, .tr-caption, .psCaption{display:block;margin-top:8px; font-size:small;line-height:1.3; opacity:.8} /* ad */ .Blog ~ .LinkList{display:none} .pE .widget, .post .nAd >*{margin-block:40px} /* Note */ .note{position:relative; padding:18px 20px;padding-inline-start:40px;border-radius:var(--contentBd-radius); color:var(--noteC);background-color:var(--noteBg); font:14px/1.4 var(--fontBody-alt); overflow:hidden} .note::after{content:var(--noteAfter); position:absolute;top:12px; min-width:15px;text-align:center; font-size:1.5rem} .note.wr{color:var(--warnC);background-color:var(--warnBg)} .note.wr::after{content:var(--warnAfter)} .nB:not(.r) .note::after{left:14px} .nB.r .note::after{right:14px} /* list */ .step{counter-reset:num; line-height:1.6} .step li{position:relative;counter-increment:num; padding-inline-start:45px} .step li:not(:last-child){padding-bottom:15px} .step li::before{content:counter(num) '.'; display:flex;align-items:center;justify-content:center; position:absolute;top:0;width:30px;height:30px;border:1px solid var(--stepC);border-radius:50%; color:currentColor;font:small var(--fontBody-alt); transition:background var(--tDuration), color var(--tDuration)} .pE:not(.r) .step li::before{left:0} .pE.r .step li::before{right:0} .step li:hover::before{background-color:var(--stepC);color:var(--stepHover)} .step li::after{content:''; position:absolute;top:calc(30px + 8px);bottom:8px; border-inline-start:1px solid var(--stepC)} .pE:not(.r) .step li::after{left:calc(30px / 2)} .pE.r .step li::after{right:calc(30px / 2)} .step img{margin-top:1.2em} /* list - pros, cons */ .pros, .cons{margin-block:5px 15px;padding-inline-start:10px; font-size:1.02rem;line-height:1.5} .pros li, .cons li{margin-bottom:10px;padding-inline-start:10px} .pros li::marker{content:'\002B'} .cons li::marker{content:'\2212'} /* related */ .pRelate{margin-block:2.5em;padding-block:1.7em; border-block:var(--contentBd-line) solid var(--contentBd-color); font:14px/1.4 var(--fontBody-alt)} .pRelate b{font-weight:400; opacity:.8} .pRelate ul, .pRelate ol{margin-block:10px 0;padding-inline-start:20px} .pRelate li{padding-block:2px} .pRelate a:hover{text-decoration:underline} /* table */ .table{margin-block:1em;padding-block-end:4px; overflow-y:hidden;overflow-x:auto;scroll-behavior:smooth} table{margin-inline-end:auto; font:14px/1.4 var(--fontBody-alt)} table:not(.tr-caption-container){border:1px solid var(--contentBd-color);border-radius:var(--contentBd-radius); overflow:hidden} table:not(.tr-caption-container) td{padding:14px} table:not(.tr-caption-container) tr:not(:last-child) td, table th{border-bottom:1px solid var(--contentBd-color)} table th{padding:15px 14px; font-weight:500;text-align:inherit} table th:not(:last-child), table:not(.tr-caption-container) td:not(:last-child){border-inline-end:1px solid var(--contentBd-color)} .table.w90 table:not(.tr-caption-container){min-width:90%} .table.w100 table:not(.tr-caption-container){min-width:100%} .table.noLine table th:not(:last-child), .table.noLine table:not(.tr-caption-container) td:not(:last-child){border-inline-color:transparent} .table.withBg table:not(.tr-caption-container) tbody tr:nth-child(2n+1), .table.hoverBg table:not(.tr-caption-container) tbody tr:hover{background-color:var(--tableBg-color)} /* toc */ details.sp{padding:1.5em 1.25em;border-color:var(--themeLink);font-size:.96em} details.sp summary{display:flex;justify-content:space-between;align-items:baseline;column-gap:10px; line-height:1.4} details.sp summary::after{content:'\276F'; flex-shrink:0; color:var(--themeLink);font-size:small; transform:rotate(90deg);cursor:pointer} details.sp[open] summary::after{transform:rotate(-90deg)} details.toc .toC{margin-top:1em} details.toc a:hover{text-decoration:underline} details.toc a{/*display:-webkit-box;*/ display:inline; -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; color:inherit} details.toc ol{list-style:none;margin:0;padding:0; counter-reset:toc; overflow:hidden} details.toc ol ol{padding-top:5px} details.toc ol ol ol::before{content:''; position:absolute;top:0; width:15px;height:100%; border-inline-start:1.5px solid var(--contentBd-color)} details.toc ol ol ol ol{display:none} details.toc li{position:relative;padding-inline-start:28px} details.toc li::before{content:counters(toc,'.')'. ';counter-increment:toc; position:absolute;top:0; min-width:24px;font-size:small;line-height:1.8;text-align:end; opacity:.8} details.toc li li{padding-inline-start:17px} details.toc li li::before{content:''; top:-85px; min-width:12px;height:100px;border:1.5px solid var(--themeBd-color);border-block-start:0;border-inline-end:0;} .pE:not(.r) details.toc li::before{left:0; border-radius:0 0 0 8px} .pE.r details.toc li::before{right:0; border-radius:0 0 8px 0} .pE:not(.r) details.toc ol ol ol::before{left:0} .pE.r details.toc ol ol ol::before{right:0} /* accordion */ .showH{margin-block:1.7em; font:.98em/1.6 var(--fontBody)} details.ac{padding:1.5em 1.25em; border-bottom:var(--contentBd-line) solid var(--contentBd-color)} details.ac:first-child{border-top:var(--contentBd-line) solid var(--contentBd-color)} details.ac summary{display:flex;align-items:baseline;justify-content:space-between; transition:color var(--tDuration)} details.ac summary::after{content:'\276F'; flex-shrink:0;display:inline; font-size:small; transform:rotate(90deg);cursor:pointer} details.ac[open] summary{color:var(--themeLink)} details.ac:not(.alt)[open] summary::after{transform:rotate(-90deg)} details.ac.alt summary::after{content:'\002B'; font-size:1.25em;line-height:20px;transform:none} details.ac.alt[open] summary::after{content:'\2212'} details.ac .aC{margin-block:1em} details.ac .aC p:first-child{margin-block-start:0} /* youtube-fullpage */ .videoYt{position:relative; padding-bottom:56.25%; border-radius:var(--contentBd-radius);overflow:hidden} .videoYt iframe{position:absolute;width:100%;height:100%;left:0;right:0} /* youtube-lazy */ .lazyYt{position:relative;padding-top:56.25%;border-radius:var(--contentBd-radius); overflow:hidden} .lazyYt img{top:-16.84%;left:0; width:100%; border:0;border-radius:0;opacity:.95; z-index:-1} .lazyYt img:hover{transform:none;box-shadow:none} .lazyYt img, .lazyYt iframe, .lazyYt .play{position:absolute} .lazyYt iframe{bottom:0;right:0; width:100%;height:100%} .lazyYt .play{display:block;width:70px;height:70px; top:50%;left:50%; transform:translate3d(-50%,-50%,0); transition:all .5s ease} .lazyYt .play svg{width:inherit;height:inherit; fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:8} .lazyYt .play .c{stroke:rgba(255,255,255,.85);stroke-dasharray:650;stroke-dashoffset:650; transition:all .4s ease-in-out; opacity:.3} .lazyYt .play .t{stroke:rgba(255,255,255,.75);stroke-dasharray:240;stroke-dashoffset:480; transition:all .6s ease-in-out; transform:translateY(0)} .lazyYt .play:hover .t{animation:nudge .6s ease-in-out;-webkit-animation:nudge .6s ease-in-out} .lazyYt .play:hover .t, .lazyYt .play:hover .c{stroke-dashoffset:0; opacity:.9;stroke:var(--themeLink)} .nAMP .lazyYt{display:none} /* button */ .pE .button{margin-block:.4em} .pE .btnF .button{margin:0} /* button-download */ .dlBox{display:flex;align-items:center; max-width:500px; margin-block:1.6em;padding:.8em; border:1px solid var(--contentBd-color);border-radius:var(--contentBd-radius); font:14px var(--fontBody-alt); transition:box-shadow var(--tDuration), border-color var(--tDuration)} .dlBox:hover{box-shadow:0 15px 50px -20px rgb(0 0 0 / 20%)} .dlBox .fT{display:flex;align-items:center;justify-content:center;flex-shrink:0; width:42px;height:42px;background-color:rgb(152 155 159 / 20%);border-radius:var(--contentBd-radius)} .dlBox .fT::before{content:attr(data-text);opacity:.8} .dlBox .fT.lazy{background-size:cover;background-position:center;background-repeat:no-repeat} .dlBox .fT.lazy::before{display:none} .dlBox .button{flex-shrink:0;height:40px;margin:0;padding:10px 12px;font-size:small} .dlBox .button::after{content:attr(aria-label)} .dlBox .fN{flex-grow:1; width:calc(100% - 200px);padding:0 15px} .dlBox .fN >*{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .dlBox .fS{line-height:1.5;font-size:small;opacity:.8} /* lightBox */ .lightBox{position:relative} .lightBox img{display:block; transition:position var(--tDuration), margin var(--tDuration)} .lightBox details .n, .lightBox details[open]{position:absolute;top:0;left:0;bottom:0;right:0; background-color:transparent; transition:position var(--tDuration), background-color var(--tDuration), backdrop-filter var(--tDuration), height var(--tDuration)} .lightBox details .n .c{position:fixed;bottom:-20px;right:-20px;width:42px;height:42px;border-radius:50%; color:currentColor;background-color:var(--contentBg); opacity:0;visibility:hidden;box-shadow:0 5px 20px -5px rgb(0 0 0 / 20%); transition:bottom var(--tDuration), right var(--tDuration), var(--tShowHide)} .lightBox details .n .c::after{content:'\2715'; font-weight:400;font-size:14px} .lightBox details[open]{position:fixed; height:var(--vHeight);background-color:var(--themeBg-pop);backdrop-filter:saturate(180%) blur(10px); z-index:10} .lightBox details[open] .n .c{bottom:20px;right:20px; opacity:1;visibility:visible} .lightBox details[open] ~ *, .lightBox details[open] ~ noscript >*{position:fixed;top:0;left:0;bottom:0;right:0;max-width:calc(100% - (var(--contentPadding) * 2));max-height:calc(100% - (var(--contentPadding) * 2));margin:auto; z-index:10} /* syntax */ .pre{color:var(--synC);background-color:var(--synBg);border:var(--synBd-line) solid var(--synBd-color);border-radius:var(--synBd-radius); direction:ltr} .pre:not(.tb){position:relative; margin:1.7em auto; font-family:var(--fontCode); overflow:hidden} .pre:not(.tb)::before{content:'</>'; display:flex;justify-content:flex-end; position:absolute;top:0;left:0;right:0; padding-inline:10px;color:var(--synGray);background-color:inherit; font-size:11px;line-height:30px; z-index:1; opacity:0;visibility:hidden} .pre:not(.tb).html::before{content:'.html'} .pre:not(.tb).css::before{content:'.css'} .pre:not(.tb).js::before{content:'.js'} .pre:not(.tb).custom::before{content:attr(data-text)} .pre:not(.tb, :hover)::before{opacity:1;visibility:visible; transition-delay: 2s} .pre:not(.tb) button{display:flex;justify-content:flex-end; position:absolute;top:0;right:0; padding:0 10px;border:0;color:var(--synGray);background-color:inherit; font-size:11px;line-height:30px; z-index:2} .pre:not(.tb, :hover) button{opacity:0;visibility:hidden; transition-delay: 2s; z-index:1} .pre pre, .pre.tb pre{margin:0;padding-top:30px; color:inherit;background-color:inherit} pre{display:block; position:relative; font:13px/1.6 var(--fontCode); color:var(--synC);background-color:var(--synBg); margin:1.7em auto;padding:20px;border-radius:var(--contentBd-radius); -moz-tab-size:2;tab-size:2;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none; overflow:auto;direction:ltr;white-space:pre} pre i{color:var(--synBlue);font-style:normal} pre i.block{color:#fff;background-color:var(--synBlue)} code, kbd{display:inline; padding:5px;border-radius:2px; font:14px var(--fontCode); background-color:#ebeced;color:#2f3337} /* Multi syntax */ .pre.tb .preH{font-size:.93rem; margin:0} .pre.tb .preH >*{padding-top:15px} .pre.tb .preH::after{content:'</>'; margin-left:auto;padding:15px; font:10px var(--fontCode); color:var(--synGray)} .pre.tb >:not(.preH){display:none} .pE input[id*="1"]:checked ~ div[class*="C-1"], .pE input[id*="2"]:checked ~ div[class*="C-2"], .pE input[id*="3"]:checked ~ div[class*="C-3"], .pE input[id*="4"]:checked ~ div[class*="C-4"]{display:block} /* hljs */ .hljs-comment, .hljs-code, .hljs-meta, pre i.gray{color:var(--synGray)} .hljs-name, .hljs-title, .hljs-bullet, .hljs-variable, .hljs-template-variable, .hljs-selector-id, .hljs-selector-class, .hljs-selector-tag, .hljs-literal, pre i.red{color:var(--synOrange)} .hljs-keyword, .hljs-string, .hljs-type, .hljs-section, .hljs-quote, .hljs-built_in, .hljs-builtin-name, pre i.blue{color:var(--synBlue)} .hljs-attribute{} .hljs-params, pre i.green{color:var(--synGreen)} .hljs-number, .hljs-symbol{color:var(--synRed)} .hljs-regexp, .hljs-link{color:var(--synGold)} .hljs-deletion{background-color:var(--warnBg);color:var(--warnC)} .hljs-addition{background-color:var(--noteBg);color:var(--noteC)} .hljs-strong{font-weight:bold} .hljs-code, .hljs-emphasis{font-style:italic} /* tabs */ .tbHd.stick:not(.preH){position:-webkit-sticky;position:sticky;top:var(--headerHeight);background-color:var(--contentBg); z-index:1} .tbHd{display:flex; margin-bottom:30px;border-bottom:var(--contentBd-line) solid var(--contentBd-color); font:14px/1.6 var(--fontBody-alt); overflow-x:scroll;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory; -ms-overflow-style:none;-webkit-overflow-scrolling:touch} .tbHd >*{position:relative; padding:12px 15px; transition:opacity var(--tDuration); opacity:.6;white-space:nowrap; scroll-snap-align:start} .tbHd >*::before{content:attr(data-text)} .tbHd >*::after{content:''; position:absolute;left:0;bottom:-1px;right:0; height:2px;border-radius:2px 2px 0 0;background-color:var(--themeLink); opacity:0; transition:var(--tShowHide)} .tbCn >*{display:none;width:100%} .tbCn >* p:first-child{margin-top:0} .pE input[id*="1"]:checked ~ .tbHd label[for*="1"], .pE input[id*="2"]:checked ~ .tbHd label[for*="2"], .pE input[id*="3"]:checked ~ .tbHd label[for*="3"], .pE input[id*="4"]:checked ~ .tbHd label[for*="4"]{color:var(--themeLink);opacity:1; font-weight:500} .pE input[id*="1"]:checked ~ .tbHd label[for*="1"]::after, .pE input[id*="2"]:checked ~ .tbHd label[for*="2"]::after, .pE input[id*="3"]:checked ~ .tbHd label[for*="3"]::after, .pE input[id*="4"]:checked ~ .tbHd label[for*="4"]::after{opacity:1} .pE input[id*="1"]:checked ~ .tbCn div[class*="Text-1"], .pE input[id*="2"]:checked ~ .tbCn div[class*="Text-2"], .pE input[id*="3"]:checked ~ .tbCn div[class*="Text-3"], .pE input[id*="4"]:checked ~ .tbCn div[class*="Text-4"]{display:block} /* split */ .blogPg{font-size:small; align-items:baseline;justify-content:center; gap:0} .blogPg >*:not(.page){display:inline-flex;align-items:center;justify-content:center;gap:8px; position:relative;min-width:40px;height:40px; border-radius:var(--contentBd-radius); color:inherit} .blogPg a{opacity:.6} .blogPg a:hover{opacity:1} .blogPg .current:not(.page)::after, .blogPg .n::after{content:'';display:block; width:20px;border-bottom:1px solid currentColor} .blogPg .n{gap:4px;margin-inline-start:5px; transition:gap var(--tDuration)} .blogPg .n::before{content:var(--pageNext)} .blogPg .n::after{width:1px; opacity:0;visibility:hidden;transition:width var(--tDuration), var(--tShowHide)} .blogPg .n:hover{gap:8px} .blogPg .n:hover::after{width:20px; opacity:1;visibility:visible} .blogPg .a:hover{color:var(--themeLink)} /* component: responsive */ @media screen and (max-width:640px){/* scroll-img */ .scImg{flex-wrap:nowrap;justify-content:flex-start; padding-inline:var(--contentPadding); overflow-y:hidden;overflow-x:scroll;scroll-behavior:smooth;scroll-snap-type:x mandatory; -ms-overflow-style:none;-webkit-overflow-scrolling:touch} .scImg >*{flex:0 0 80%;scroll-snap-align:center} .pE img.full{max-width:none;border-radius:0} /* Table */ .table{display:flex; padding-inline:var(--contentPadding)} /* full-width */ .pE img.full, .scImg, .table{position:relative;width:calc(100% + (var(--contentPadding) * 2)); margin-inline:var(--contentPadding-minus)} } @media screen and (max-width:500px){/* scroll-img */ .hdImg >*, .shImg >*, .grImg >*:first-child, .grImg >*:nth-child(4), .grImg >*:nth-child(7){width:100%} .pE .separator a{display:block!important; margin:0!important} /* button */ .btnF >*{flex-grow:1;justify-content:center} .btnF >*:first-child{flex:0 0 auto} .dlBox a::after{display:none} .dlBox .button{min-width:45px;height:45px;justify-content:center} }
+/* component */ .pE{position:relative;margin-top:40px; font:var(--postBody-font)/var(--lineHeight) var(--fontBody); transition:font var(--tDuration)} /* head */ .pE h1, .pE h2, .pE h3, .pE h4, .pE h5, .pE h6{margin-top:1em; line-height:1.3;font-family:var(--fontBody-alt)} .pE h1:target, .pE h2:target, .pE h3:target, .pE h4:target, .pE h5:target, .pE h6:target{margin-top:0;padding-top:var(--headerHeight)} .pE :is(h1, h2, h3, h4, h5, h6).h::before{content:attr(data-text)} /* Paragraph */ .pE p{margin-block:var(--lineSpacing)} .pRef{font:1rem/1.4 var(--fontBody-alt); opacity:.8;word-break:break-word} .pRef ol, .pRef ul{padding-inline-start:30px} .pIndent{text-indent:2.2em} .pE:not(.r) .dropCap{float:left;margin-block-start:5px;margin-inline-end:8px; font:3.4em/45px var(--fontBody-alt)} .pE hr{margin-block:var(--postBreak); border:0; font:24px var(--fontCode)} .pE hr::before{content:'\007E'; display:block; letter-spacing:.6em;text-indent:.6em;text-align:center; opacity:.8;clear:both} .pE hr.dot::before{content:'\2027 \2027 \2027'} .pE hr.line::before{content:'';border-bottom:1px solid var(--contentBd-color)} /* Blockquote final — clean, harmonis dengan Median UI */blockquote {position: relative; margin: 20px 0;padding: 24px 20px 24px 45px;background-color: #f8f8f8; /* soft gray, nyatu dengan Median UI */background-image: -webkit-radial-gradient(center, cover, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 90%),-webkit-repeating-linear-gradient(top, transparent 0%, transparent 24px, rgba(150,150,150,0.3) 24px, rgba(150,150,150,0.3) 25px); border: 1px solid rgba(200,200,200,0.4); /* garis soft */font-family: 'Georgia', serif;font-style: italic;font-size: 1em;line-height: 1.6;color: #333; /* tetap nyaman dibaca */border-radius: 4px;text-shadow: 0 1px 1px rgba(255,255,255,0.5);}/* Efek garis & layer di belakang */blockquote:before,blockquote:after {content: "";position: absolute;top: 0; bottom: 0;pointer-events: none;}blockquote:before {left: 18px;border-left: 4px solid rgba(200,200,200,0.5); /* garis kiri soft */}blockquote:after {z-index: -1;left: -4px;right: -4px;background: rgba(245,245,245,0.9); /* layer lembut */border: 1px solid rgba(220,220,220,0.3);transform: rotate(2deg);}/* img */ .pE img, .cm img{display:inline-block; border-radius:var(--postImageBd-radius)} /* scroll-img */ .psImg{--gap:14px; display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:center;gap:var(--gap); margin-block:var(--lineSpacing)} .psImg img{display:block} .psImg >*{width:calc((100% / 2) - (var(--gap) / 2)); position:relative} .scImg >*{width:calc((100% / 3) - (var(--gap) * 2/3))} .btImg label{display:flex;align-items:center;justify-content:center; position:absolute;top:0;left:0;right:0;bottom:0; font-size:.93rem;font-family:var(--fontBody-alt); border-radius:var(--postImageBd-radius); color:#d9e2f0;background-color:var(--themeBg-pop); transition:var(--tShowHide); -webkit-backdrop-filter:saturate(180%) blur(10px); backdrop-filter:saturate(180%) blur(10px)} .hdImg .shImg{width:100%; margin-block:0} .inImg:not(:checked) ~ .hdImg .shImg{display:none} .inImg:checked ~ .hdImg .btImg label{opacity:0;visibility:hidden} /* caption */ figure{margin-inline:0} figcaption, .tr-caption, .psCaption{display:block;margin-top:8px; font-size:small;line-height:1.3; opacity:.8} /* ad */ .Blog ~ .LinkList{display:none} .pE .widget, .post .nAd >*{margin-block:40px} /* Note */ .note{position:relative; padding:18px 20px;padding-inline-start:40px;border-radius:var(--contentBd-radius); color:var(--noteC);background-color:var(--noteBg); font:14px/1.4 var(--fontBody-alt); overflow:hidden} .note::after{content:var(--noteAfter); position:absolute;top:12px; min-width:15px;text-align:center; font-size:1.5rem} .note.wr{color:var(--warnC);background-color:var(--warnBg)} .note.wr::after{content:var(--warnAfter)} .nB:not(.r) .note::after{left:14px} .nB.r .note::after{right:14px} /* list */ .step{counter-reset:num; line-height:1.6} .step li{position:relative;counter-increment:num; padding-inline-start:45px} .step li:not(:last-child){padding-bottom:15px} .step li::before{content:counter(num) '.'; display:flex;align-items:center;justify-content:center; position:absolute;top:0;width:30px;height:30px;border:1px solid var(--stepC);border-radius:50%; color:currentColor;font:small var(--fontBody-alt); transition:background var(--tDuration), color var(--tDuration)} .pE:not(.r) .step li::before{left:0} .pE.r .step li::before{right:0} .step li:hover::before{background-color:var(--stepC);color:var(--stepHover)} .step li::after{content:''; position:absolute;top:calc(30px + 8px);bottom:8px; border-inline-start:1px solid var(--stepC)} .pE:not(.r) .step li::after{left:calc(30px / 2)} .pE.r .step li::after{right:calc(30px / 2)} .step img{margin-top:1.2em} /* list - pros, cons */ .pros, .cons{margin-block:5px 15px;padding-inline-start:10px; font-size:1.02rem;line-height:1.5} .pros li, .cons li{margin-bottom:10px;padding-inline-start:10px} .pros li::marker{content:'\002B'} .cons li::marker{content:'\2212'} /* related */ .pRelate{margin-block:2.5em;padding-block:1.7em; border-block:var(--contentBd-line) solid var(--contentBd-color); font:14px/1.4 var(--fontBody-alt)} .pRelate b{font-weight:400; opacity:.8} .pRelate ul, .pRelate ol{margin-block:10px 0;padding-inline-start:20px} .pRelate li{padding-block:2px} .pRelate a:hover{text-decoration:underline} /* table */ .table{margin-block:1em;padding-block-end:4px; overflow-y:hidden;overflow-x:auto;scroll-behavior:smooth} table{margin-inline-end:auto; font:14px/1.4 var(--fontBody-alt)} table:not(.tr-caption-container){border:1px solid var(--contentBd-color);border-radius:var(--contentBd-radius); overflow:hidden} table:not(.tr-caption-container) td{padding:14px} table:not(.tr-caption-container) tr:not(:last-child) td, table th{border-bottom:1px solid var(--contentBd-color)} table th{padding:15px 14px; font-weight:500;text-align:inherit} table th:not(:last-child), table:not(.tr-caption-container) td:not(:last-child){border-inline-end:1px solid var(--contentBd-color)} .table.w90 table:not(.tr-caption-container){min-width:90%} .table.w100 table:not(.tr-caption-container){min-width:100%} .table.noLine table th:not(:last-child), .table.noLine table:not(.tr-caption-container) td:not(:last-child){border-inline-color:transparent} .table.withBg table:not(.tr-caption-container) tbody tr:nth-child(2n+1), .table.hoverBg table:not(.tr-caption-container) tbody tr:hover{background-color:var(--tableBg-color)} /* toc */ details.sp{padding:1.5em 1.25em;border-color:var(--themeLink);font-size:.96em} details.sp summary{display:flex;justify-content:space-between;align-items:baseline;column-gap:10px; line-height:1.4} details.sp summary::after{content:'\276F'; flex-shrink:0; color:var(--themeLink);font-size:small; transform:rotate(90deg);cursor:pointer} details.sp[open] summary::after{transform:rotate(-90deg)} details.toc .toC{margin-top:1em} details.toc a:hover{text-decoration:underline} details.toc a{/*display:-webkit-box;*/ display:inline; -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden; color:inherit} details.toc ol{list-style:none;margin:0;padding:0; counter-reset:toc; overflow:hidden} details.toc ol ol{padding-top:5px} details.toc ol ol ol::before{content:''; position:absolute;top:0; width:15px;height:100%; border-inline-start:1.5px solid var(--contentBd-color)} details.toc ol ol ol ol{display:none} details.toc li{position:relative;padding-inline-start:28px} details.toc li::before{content:counters(toc,'.')'. ';counter-increment:toc; position:absolute;top:0; min-width:24px;font-size:small;line-height:1.8;text-align:end; opacity:.8} details.toc li li{padding-inline-start:17px} details.toc li li::before{content:''; top:-85px; min-width:12px;height:100px;border:1.5px solid var(--themeBd-color);border-block-start:0;border-inline-end:0;} .pE:not(.r) details.toc li::before{left:0; border-radius:0 0 0 8px} .pE.r details.toc li::before{right:0; border-radius:0 0 8px 0} .pE:not(.r) details.toc ol ol ol::before{left:0} .pE.r details.toc ol ol ol::before{right:0} /* accordion */ .showH{margin-block:1.7em; font:.98em/1.6 var(--fontBody)} details.ac{padding:1.5em 1.25em; border-bottom:var(--contentBd-line) solid var(--contentBd-color)} details.ac:first-child{border-top:var(--contentBd-line) solid var(--contentBd-color)} details.ac summary{display:flex;align-items:baseline;justify-content:space-between; transition:color var(--tDuration)} details.ac summary::after{content:'\276F'; flex-shrink:0;display:inline; font-size:small; transform:rotate(90deg);cursor:pointer} details.ac[open] summary{color:var(--themeLink)} details.ac:not(.alt)[open] summary::after{transform:rotate(-90deg)} details.ac.alt summary::after{content:'\002B'; font-size:1.25em;line-height:20px;transform:none} details.ac.alt[open] summary::after{content:'\2212'} details.ac .aC{margin-block:1em} details.ac .aC p:first-child{margin-block-start:0} /* youtube-fullpage */ .videoYt{position:relative; padding-bottom:56.25%; border-radius:var(--contentBd-radius);overflow:hidden} .videoYt iframe{position:absolute;width:100%;height:100%;left:0;right:0} /* youtube-lazy */ .lazyYt{position:relative;padding-top:56.25%;border-radius:var(--contentBd-radius); overflow:hidden} .lazyYt img{top:-16.84%;left:0; width:100%; border:0;border-radius:0;opacity:.95; z-index:-1} .lazyYt img:hover{transform:none;box-shadow:none} .lazyYt img, .lazyYt iframe, .lazyYt .play{position:absolute} .lazyYt iframe{bottom:0;right:0; width:100%;height:100%} .lazyYt .play{display:block;width:70px;height:70px; top:50%;left:50%; transform:translate3d(-50%,-50%,0); transition:all .5s ease} .lazyYt .play svg{width:inherit;height:inherit; fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:8} .lazyYt .play .c{stroke:rgba(255,255,255,.85);stroke-dasharray:650;stroke-dashoffset:650; transition:all .4s ease-in-out; opacity:.3} .lazyYt .play .t{stroke:rgba(255,255,255,.75);stroke-dasharray:240;stroke-dashoffset:480; transition:all .6s ease-in-out; transform:translateY(0)} .lazyYt .play:hover .t{animation:nudge .6s ease-in-out;-webkit-animation:nudge .6s ease-in-out} .lazyYt .play:hover .t, .lazyYt .play:hover .c{stroke-dashoffset:0; opacity:.9;stroke:var(--themeLink)} .nAMP .lazyYt{display:none} /* button */ .pE .button{margin-block:.4em} .pE .btnF .button{margin:0} /* button-download */ .dlBox{display:flex;align-items:center; max-width:500px; margin-block:1.6em;padding:.8em; border:1px solid var(--contentBd-color);border-radius:var(--contentBd-radius); font:14px var(--fontBody-alt); transition:box-shadow var(--tDuration), border-color var(--tDuration)} .dlBox:hover{box-shadow:0 15px 50px -20px rgb(0 0 0 / 20%)} .dlBox .fT{display:flex;align-items:center;justify-content:center;flex-shrink:0; width:42px;height:42px;background-color:rgb(152 155 159 / 20%);border-radius:var(--contentBd-radius)} .dlBox .fT::before{content:attr(data-text);opacity:.8} .dlBox .fT.lazy{background-size:cover;background-position:center;background-repeat:no-repeat} .dlBox .fT.lazy::before{display:none} .dlBox .button{flex-shrink:0;height:40px;margin:0;padding:10px 12px;font-size:small} .dlBox .button::after{content:attr(aria-label)} .dlBox .fN{flex-grow:1; width:calc(100% - 200px);padding:0 15px} .dlBox .fN >*{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .dlBox .fS{line-height:1.5;font-size:small;opacity:.8} /* lightBox */ .lightBox{position:relative} .lightBox img{display:block; transition:position var(--tDuration), margin var(--tDuration)} .lightBox details .n, .lightBox details[open]{position:absolute;top:0;left:0;bottom:0;right:0; background-color:transparent; transition:position var(--tDuration), background-color var(--tDuration), backdrop-filter var(--tDuration), height var(--tDuration)} .lightBox details .n .c{position:fixed;bottom:-20px;right:-20px;width:42px;height:42px;border-radius:50%; color:currentColor;background-color:var(--contentBg); opacity:0;visibility:hidden;box-shadow:0 5px 20px -5px rgb(0 0 0 / 20%); transition:bottom var(--tDuration), right var(--tDuration), var(--tShowHide)} .lightBox details .n .c::after{content:'\2715'; font-weight:400;font-size:14px} .lightBox details[open]{position:fixed; height:var(--vHeight);background-color:var(--themeBg-pop);backdrop-filter:saturate(180%) blur(10px); z-index:10} .lightBox details[open] .n .c{bottom:20px;right:20px; opacity:1;visibility:visible} .lightBox details[open] ~ *, .lightBox details[open] ~ noscript >*{position:fixed;top:0;left:0;bottom:0;right:0;max-width:calc(100% - (var(--contentPadding) * 2));max-height:calc(100% - (var(--contentPadding) * 2));margin:auto; z-index:10} /* syntax */ .pre{color:var(--synC);background-color:var(--synBg);border:var(--synBd-line) solid var(--synBd-color);border-radius:var(--synBd-radius); direction:ltr} .pre:not(.tb){position:relative; margin:1.7em auto; font-family:var(--fontCode); overflow:hidden} .pre:not(.tb)::before{content:'</>'; display:flex;justify-content:flex-end; position:absolute;top:0;left:0;right:0; padding-inline:10px;color:var(--synGray);background-color:inherit; font-size:11px;line-height:30px; z-index:1; opacity:0;visibility:hidden} .pre:not(.tb).html::before{content:'.html'} .pre:not(.tb).css::before{content:'.css'} .pre:not(.tb).js::before{content:'.js'} .pre:not(.tb).custom::before{content:attr(data-text)} .pre:not(.tb, :hover)::before{opacity:1;visibility:visible; transition-delay: 2s} .pre:not(.tb) button{display:flex;justify-content:flex-end; position:absolute;top:0;right:0; padding:0 10px;border:0;color:var(--synGray);background-color:inherit; font-size:11px;line-height:30px; z-index:2} .pre:not(.tb, :hover) button{opacity:0;visibility:hidden; transition-delay: 2s; z-index:1} .pre pre, .pre.tb pre{margin:0;padding-top:30px; color:inherit;background-color:inherit} pre{display:block; position:relative; font:13px/1.6 var(--fontCode); color:var(--synC);background-color:var(--synBg); margin:1.7em auto;padding:20px;border-radius:var(--contentBd-radius); -moz-tab-size:2;tab-size:2;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none; overflow:auto;direction:ltr;white-space:pre} pre i{color:var(--synBlue);font-style:normal} pre i.block{color:#fff;background-color:var(--synBlue)} code, kbd{display:inline; padding:5px;border-radius:2px; font:14px var(--fontCode); background-color:#ebeced;color:#2f3337} /* Multi syntax */ .pre.tb .preH{font-size:.93rem; margin:0} .pre.tb .preH >*{padding-top:15px} .pre.tb .preH::after{content:'</>'; margin-left:auto;padding:15px; font:10px var(--fontCode); color:var(--synGray)} .pre.tb >:not(.preH){display:none} .pE input[id*="1"]:checked ~ div[class*="C-1"], .pE input[id*="2"]:checked ~ div[class*="C-2"], .pE input[id*="3"]:checked ~ div[class*="C-3"], .pE input[id*="4"]:checked ~ div[class*="C-4"]{display:block} /* hljs */ .hljs-comment, .hljs-code, .hljs-meta, pre i.gray{color:var(--synGray)} .hljs-name, .hljs-title, .hljs-bullet, .hljs-variable, .hljs-template-variable, .hljs-selector-id, .hljs-selector-class, .hljs-selector-tag, .hljs-literal, pre i.red{color:var(--synOrange)} .hljs-keyword, .hljs-string, .hljs-type, .hljs-section, .hljs-quote, .hljs-built_in, .hljs-builtin-name, pre i.blue{color:var(--synBlue)} .hljs-attribute{} .hljs-params, pre i.green{color:var(--synGreen)} .hljs-number, .hljs-symbol{color:var(--synRed)} .hljs-regexp, .hljs-link{color:var(--synGold)} .hljs-deletion{background-color:var(--warnBg);color:var(--warnC)} .hljs-addition{background-color:var(--noteBg);color:var(--noteC)} .hljs-strong{font-weight:bold} .hljs-code, .hljs-emphasis{font-style:italic} /* tabs */ .tbHd.stick:not(.preH){position:-webkit-sticky;position:sticky;top:var(--headerHeight);background-color:var(--contentBg); z-index:1} .tbHd{display:flex; margin-bottom:30px;border-bottom:var(--contentBd-line) solid var(--contentBd-color); font:14px/1.6 var(--fontBody-alt); overflow-x:scroll;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory; -ms-overflow-style:none;-webkit-overflow-scrolling:touch} .tbHd >*{position:relative; padding:12px 15px; transition:opacity var(--tDuration); opacity:.6;white-space:nowrap; scroll-snap-align:start} .tbHd >*::before{content:attr(data-text)} .tbHd >*::after{content:''; position:absolute;left:0;bottom:-1px;right:0; height:2px;border-radius:2px 2px 0 0;background-color:var(--themeLink); opacity:0; transition:var(--tShowHide)} .tbCn >*{display:none;width:100%} .tbCn >* p:first-child{margin-top:0} .pE input[id*="1"]:checked ~ .tbHd label[for*="1"], .pE input[id*="2"]:checked ~ .tbHd label[for*="2"], .pE input[id*="3"]:checked ~ .tbHd label[for*="3"], .pE input[id*="4"]:checked ~ .tbHd label[for*="4"]{color:var(--themeLink);opacity:1; font-weight:500} .pE input[id*="1"]:checked ~ .tbHd label[for*="1"]::after, .pE input[id*="2"]:checked ~ .tbHd label[for*="2"]::after, .pE input[id*="3"]:checked ~ .tbHd label[for*="3"]::after, .pE input[id*="4"]:checked ~ .tbHd label[for*="4"]::after{opacity:1} .pE input[id*="1"]:checked ~ .tbCn div[class*="Text-1"], .pE input[id*="2"]:checked ~ .tbCn div[class*="Text-2"], .pE input[id*="3"]:checked ~ .tbCn div[class*="Text-3"], .pE input[id*="4"]:checked ~ .tbCn div[class*="Text-4"]{display:block} /* split */ .blogPg{font-size:small; align-items:baseline;justify-content:center; gap:0} .blogPg >*:not(.page){display:inline-flex;align-items:center;justify-content:center;gap:8px; position:relative;min-width:40px;height:40px; border-radius:var(--contentBd-radius); color:inherit} .blogPg a{opacity:.6} .blogPg a:hover{opacity:1} .blogPg .current:not(.page)::after, .blogPg .n::after{content:'';display:block; width:20px;border-bottom:1px solid currentColor} .blogPg .n{gap:4px;margin-inline-start:5px; transition:gap var(--tDuration)} .blogPg .n::before{content:var(--pageNext)} .blogPg .n::after{width:1px; opacity:0;visibility:hidden;transition:width var(--tDuration), var(--tShowHide)} .blogPg .n:hover{gap:8px} .blogPg .n:hover::after{width:20px; opacity:1;visibility:visible} .blogPg .a:hover{color:var(--themeLink)} /* component: responsive */ @media screen and (max-width:640px){/* scroll-img */ .scImg{flex-wrap:nowrap;justify-content:flex-start; padding-inline:var(--contentPadding); overflow-y:hidden;overflow-x:scroll;scroll-behavior:smooth;scroll-snap-type:x mandatory; -ms-overflow-style:none;-webkit-overflow-scrolling:touch} .scImg >*{flex:0 0 80%;scroll-snap-align:center} .pE img.full{max-width:none;border-radius:0} /* Table */ .table{display:flex; padding-inline:var(--contentPadding)} /* full-width */ .pE img.full, .scImg, .table{position:relative;width:calc(100% + (var(--contentPadding) * 2)); margin-inline:var(--contentPadding-minus)} } @media screen and (max-width:500px){/* scroll-img */ .hdImg >*, .shImg >*, .grImg >*:first-child, .grImg >*:nth-child(4), .grImg >*:nth-child(7){width:100%} .pE .separator a{display:block!important; margin:0!important} /* button */ .btnF >*{flex-grow:1;justify-content:center} .btnF >*:first-child{flex:0 0 auto} .dlBox a::after{display:none} .dlBox .button{min-width:45px;height:45px;justify-content:center} }
 /* comment */ .pR{margin-top:var(--contentSpace)} /* comment-button */ .cmButton .button{justify-content:center; width:100%;max-width:none;padding-block:18px;padding-inline:var(--contentPadding-box); font-family:var(--fontBody-alt)} .cmButton .button span::before{content:attr(data-comment)} .cmButton .button:hover{box-shadow:0 15px 50px -20px rgb(0 0 0 / 20%), 0 0 0 .5px var(--themeLink) inset} /* comment-head */ .cmH .s{gap:5px} .cmH .s::before{content:attr(data-text); opacity:.8} .cmi:checked ~ .cm .cmH .s::before{content:attr(data-new)} .cmi:checked ~ .cm .cmH .s svg{transform:rotate(180deg)} .cmi:checked ~ .cm .cmO{flex-direction:column-reverse} /* comment-func */ .item-control{display:none} #comment:target .cm.popUp{margin-bottom:0;opacity:1;visibility:visible} #comment:target .cm.popUp .fc::after{opacity:1;visibility:visible; background-color:var(--themeBg-pop); -webkit-backdrop-filter:saturate(180%) blur(10px); backdrop-filter:saturate(180%) blur(10px)} #comment:target .popI:not(:checked) ~ .cmButton, .popI:checked ~ .cmButton, #comment:not(:target) .popI:not(:checked) ~ .cmButton ~ .cm:not(.popUp){display:none} #comment:target .popI:checked ~ .cm.popUp{margin-bottom:-100%; opacity:0;visibility:hidden} #comment:target .popI:checked ~ .cm.popUp .fc::after{background-color:transparent; opacity:0;visibility:hidden; backdrop-filter:none} #comment:target .popI:checked ~ .cmButton{display:block} /* comment-title */ .cm .title{margin:0; font-size:1em} /* comment-iframe */ .cm.embed .cmF, .cmO .cmX{position:relative; width:calc(100% + (10px * 2));margin-inline:-10px} .cmm.note{margin-inline:10px;font-size:small} /* comment-list */ .cmO{margin-block-start:var(--contentPadding)} .cmO li{flex-wrap:wrap;gap:10px; padding-bottom:25px} .cmO li li{position:relative;padding-bottom:15px} .cmO .cmI{position:relative; width:calc(100% - (35px + 10px))} .cmT{width:100%} .cmT svg{color:var(--themeLink); margin-inline-start:3px} .cmT .time::before{content:'\00B7';margin-inline:8px} .cmC{color:var(--themeC-alt)} .cmC img{font-size:smaller;margin-block-start:1em} .cmC.delete{display:block;margin-block-start:.5em;padding:15px;border:1px dashed rgb(0 0 0 / 20%);border-radius:3px;text-align:center} .cmC i[rel=image]{display:block;position:relative;min-height:50px;margin-block-start:.5em; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; font-size:.93em;opacity:.8} .cmC i[rel=image]::before{content:'Enable javascript to view image';display:flex;align-items:center;justify-content:center; position:absolute;top:0;left:0;bottom:0;right:0; padding:15px;border:1px dashed rgb(0 0 0 / 20%);border-radius:3px; background-color:var(--contentBg); text-align:center} .cmC i[rel=quote]{display:block;margin-block:1em .5em;padding-block:6px;padding-inline-start:15px;border-inline-start:1px solid var(--contentBd-color); opacity:.8} .cmC i[rel=pre]{display:block;margin-block:1em .5em;padding:15px;border:var(--synBd-line) solid var(--synBd-color);border-radius:var(--contentBd-radius); color:var(--synC);background-color:var(--synBg); font:normal 13px/1.6 var(--fontCode); -moz-tab-size:2;tab-size:2;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none; overflow:auto;direction:ltr;white-space:pre} .cmJ:not(.cmc), .cmR{margin-block-start:.75em} .cmJ:not(.cmc) >*::after{content:var(--reply)} .cmJ.cmc >*::after{content:var(--replies)} .cmR summary{align-items:center;padding-block:5px} .cmR summary::before{content:attr(aria-label)} .cmR summary::after{content:'';  display:var(--widgetTitle-afterD);vertical-align:middle; width:30px;margin-inline-start:8px;border-bottom:1px solid var(--widgetTitle-afterC)} .cmR[open] summary::before{content:attr(data-text)} .cmS{margin-block-start:1.5em} .cmS .cmI{width:100%} .cmS .cmA{position:absolute;width:20px} .cmS .cmA .avatar.im{min-width:20px;min-height:20px;max-width:20px;max-height:20px} .cmS .cmT{padding-inline-start:26px} .cmS .cmC{margin-block-start:.5em} 
 
 /* Responsive */ 
@@ -2118,7 +2086,7 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
             
             <b:comment>Search input</b:comment>
             <b:section class='headS' id='header-search' maxwidgets='2' showaddelement='false'>
-              <b:widget id='BlogSearch1' locked='true' title='Pencarian' type='BlogSearch' version='2' visible='true'>
+              <b:widget id='BlogSearch1' locked='true' title='Cari Artikel...' type='BlogSearch' version='2' visible='true'>
                 <b:includable id='main'>
                       <b:include name='content'/>
                     </b:includable>
@@ -2476,7 +2444,7 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                           
                               <!--[ name ]-->
                               <b:tag class='flexIn center grow text' name='span'>
-                                <span>Sub menu</span>
+                                <span>Jarang Ada</span>
                                 <b:include name='arrow-down-1-icon'/>
                               </b:tag>
                             </b:tag>
@@ -2484,17 +2452,17 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                             <ul class='n'>
                               <b:comment><!--[ Change attribute href='#' to add url ]--></b:comment>
                               <li itemprop='name'>
-                                <a href='#' itemprop='url'>
-                                  <span>Sub-menu 01</span>
+                                <a href='https://jamtambahan.blogspot.com/search/label/Keguruan' itemprop='url'>
+                                  <span>Keguruan</span>
                                 </a>
                               </li>
                               <li itemprop='name'>
                                 <a href='#' itemprop='url'>
-                                  <span>Sub-menu 02</span>
+                                  <span>Ekstrakurikuler</span>
                                 </a>
                               </li>
                             
-                              <li class='m' data-text='Mini heading' itemprop='name'>
+                              <li class='m' data-text='Muatan Lokal' itemprop='name'>
                                 <a href='#' itemprop='url'>
                                   <span>Sub-menu 03</span>
                                 </a>
@@ -2564,27 +2532,27 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                         <!--[ Standar menu ]-->
                         <li class='leftC'>
                           <b:comment>Change attribute href= to add url</b:comment>
-                          <a aria-label='About' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/tentang-penulis.html' itemprop='url'>
+                          <a aria-label='Penulis' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/tentang-penulis.html' itemprop='url'>
                             <!--[ icon ]-->
                             <b:include name='profile-2user-icon'/>
                             
                             <!--[ name ]-->
                             <div class='n text'>
-                              <span itemprop='name'>About</span>
+                              <span itemprop='name'>Penulis</span>
                             </div>
                           </a>
                         </li>
-                          
+                                             
                         <!--[ Standar menu ]-->
                         <li class='leftC br'>
                           <b:comment>Change attribute href= to add url</b:comment>
-                          <a aria-label='Contact' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/kontak-jam-tambahan.html' itemprop='url'>
+                          <a aria-label='Hubungi Kami' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/kontak-jam-tambahan.html' itemprop='url'>
                             <!--[ icon ]-->
                             <b:include name='sms-edit-icon'/>
                             
                             <!--[ name ]-->
                             <div class='n text'>
-                              <span itemprop='name'>Contact</span>
+                              <span itemprop='name'>Hubungi Kami</span>
                             </div>
                           </a>
                         </li>
@@ -2592,13 +2560,13 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                         <!--[ Standar menu ]-->
                         <li class='leftC'>
                           <b:comment>Change attribute href= to add url</b:comment>
-                          <a aria-label='Custom menu' class='a flex op i20' href='#' itemprop='url'>
+                          <a aria-label='Daftar Isi' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/site-map.html' itemprop='url'>
                             <!--[ icon ]-->
                             <b:include name='folder-2-icon'/>
                             
                             <!--[ name ]-->
                             <div class='n noWrap text'>
-                              <span class='extL' itemprop='name'>Custom menu</span>
+                              <span class='extL' itemprop='name'>Daftar Isi</span>
                             </div>
                           </a>
                         </li>
@@ -2620,13 +2588,13 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                         <!--[ Standar menu ]-->
                         <li class='leftC'>
                           <b:comment>Change attribute href= to add url</b:comment>
-                          <a aria-label='Custom menu' class='a flex op i20' href='#' itemprop='url'>
+                          <a aria-label='Custom menu' class='a flex op i20' href='https://jamtambahan.blogspot.com/p/pusat-download.html' itemprop='url'>
                             <!--[ icon ]-->
                             <b:include name='folder-2-icon'/>
                             
                             <!--[ name ]-->
                             <div class='n noWrap text'>
-                              <span class='free' itemprop='name'>Custom menu</span>
+                              <span class='free' itemprop='name'>Pusat Download</span>
                             </div>
                           </a>
                         </li>
@@ -4988,7 +4956,7 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
                             <b:widget-setting name='shownum'>4</b:widget-setting>
                             <b:widget-setting name='sorting'>NONE</b:widget-setting>
                             <b:widget-setting name='link-1'>https://jamtambahan.blogspot.com/p/disclaimer.html</b:widget-setting>
-                            <b:widget-setting name='link-2'>https://jamtambahan.blogspot.com/p/ketentuan.html</b:widget-setting>
+                            <b:widget-setting name='link-2'>https://jamtambahan.blogspot.com/p/privacy-policy.html</b:widget-setting>
                             <b:widget-setting name='link-0'>https://jamtambahan.blogspot.com/p/ketentuan.html</b:widget-setting>
                           </b:widget-settings>
                           <b:includable id='main'>
@@ -5347,8 +5315,8 @@ class TableOfContents { constructor({ from, to }) { this.fromElement = from; thi
           <b:widget-settings>
             <b:widget-setting name='shownum'>3</b:widget-setting>
             <b:widget-setting name='sorting'>NONE</b:widget-setting>
-            <b:widget-setting name='item-2'>Maaf kami tidak menemukan halaman yang kamu cari. Silahkan kembali lagi</b:widget-setting>
-            <b:widget-setting name='item-1'>Opppssss...... !!! ada yang salah..</b:widget-setting>
+            <b:widget-setting name='item-2'><![CDATA[We can't seem to find the page you are looking for, we'll fix that soon but for now you can return to the home page]]></b:widget-setting>
+            <b:widget-setting name='item-1'><![CDATA[Something's wrong]]></b:widget-setting>
             <b:widget-setting name='item-0'>&#175;\_(ツ)_/&#175;</b:widget-setting>
           </b:widget-settings>
           <b:includable id='main'>
